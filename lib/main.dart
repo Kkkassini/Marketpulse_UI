@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'customAppBar.dart';
-import 'CardRFP.dart';
+import 'package:flutter_tags/flutter_tags.dart';
+import 'package:marketpulse_ui/DragAndDrop.dart';
+
 import 'CardImage.dart';
+import 'CardRFP.dart';
 import 'CardSound.dart';
 import 'CardVideo.dart';
+import 'customAppBar.dart';
 
 // Variables used as examples:
 var title = "Application as a Service - Apprenda";
@@ -51,9 +54,581 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderStateMixin {
+  List<String> sectorTags = [];
+  List<String> clientTags = [];
+  List<String> tagsTags = [];
 
-  @override
+  // We initialize controllers here in order to keep there data threw the pages.
+  // It is not the case for _sectorController & _ clientController because their value is assigned to a list.
+
+  TextEditingController _urlController = TextEditingController();
+  TextEditingController _tagsController = TextEditingController();
+  TextEditingController _modificationTitleController = TextEditingController();
+  TextEditingController _annotationController = TextEditingController();
+
+
+  Future<void> showInformationDialog(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          final _formKey = GlobalKey<FormState>();
+          TextEditingController _sectorController = TextEditingController();
+          TextEditingController _clientController = TextEditingController();
+
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              insetPadding: EdgeInsets.symmetric(horizontal: 8),
+              content: Container(
+                  width: 600,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Upload Local Document.",
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            Text("Add a new entry",
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                            DragAndDrop(),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 300,
+                          child: ListView(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Upload with URL",
+                                        style: TextStyle(
+                                          fontFamily: 'Ubuntu',
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: TextFormField(
+                                        controller: _urlController,
+                                        decoration: InputDecoration(
+                                            fillColor: Colors.grey,
+                                            border: OutlineInputBorder(),
+                                            hintText: 'Copy URL'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Add sector and client",
+                                        style: TextStyle(
+                                          fontFamily: 'Ubuntu',
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: _sectorController,
+                                              validator: (String value) {
+                                                return sectorTags.isNotEmpty
+                                                    ? null
+                                                    : "Add at least one sector";
+                                              },
+                                              decoration: InputDecoration(
+                                                hintText: 'Document Name',
+                                                labelText: 'Sector',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () => {
+                                                    setState(() {
+                                                      sectorTags.add(
+                                                          _sectorController
+                                                              .text);
+                                                    }),
+                                                    _sectorController =
+                                                        TextEditingController(
+                                                            text: "")
+                                                  },
+                                              child: Text("+ Add")),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Tags(
+                                        alignment: WrapAlignment.center,
+                                        itemCount: sectorTags.length,
+                                        itemBuilder: (index) {
+                                          return ItemTags(
+                                            index: index,
+                                            title: sectorTags[index],
+                                            color: Colors.blue,
+                                            activeColor: Colors.blueGrey,
+                                            highlightColor: Colors.transparent,
+                                            splashColor: Colors.transparent,
+                                            elevation: 0.0,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7.0)),
+//                textColor: ,
+                                            textColor: Colors.white,
+                                            textActiveColor: Colors.white,
+                                            removeButton: ItemTagsRemoveButton(
+                                                color: Colors.black,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                size: 14,
+                                                onRemoved: () {
+                                                  setState(() {
+                                                    sectorTags.remove(
+                                                        sectorTags[index]);
+                                                  });
+
+                                                  return true;
+                                                }),
+                                            textOverflow: TextOverflow.ellipsis,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: _clientController,
+                                              validator: (value) {
+                                                return clientTags.isNotEmpty
+                                                    ? null
+                                                    : "Add at least one client";
+                                              },
+                                              decoration: InputDecoration(
+                                                labelText: 'Client',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () => {
+                                                    setState(() {
+                                                      clientTags.add(
+                                                          _clientController
+                                                              .text);
+                                                    }),
+                                                    _clientController =
+                                                        TextEditingController(
+                                                            text: "")
+                                                  },
+                                              child: Text("+ Add")),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Tags(
+                                        alignment: WrapAlignment.center,
+                                        itemCount: clientTags.length,
+                                        itemBuilder: (index) {
+                                          return ItemTags(
+                                            index: index,
+                                            title: sectorTags[index],
+                                            color: Colors.blue,
+                                            activeColor: Colors.blueGrey,
+                                            onPressed: (Item item) {
+                                              print('pressed');
+                                            },
+                                            highlightColor: Colors.transparent,
+                                            splashColor: Colors.transparent,
+                                            elevation: 0.0,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7.0)),
+//                textColor: ,
+                                            textColor: Colors.white,
+                                            textActiveColor: Colors.white,
+                                            removeButton: ItemTagsRemoveButton(
+                                                color: Colors.black,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                size: 14,
+                                                onRemoved: () {
+                                                  setState(() {
+                                                    clientTags.remove(
+                                                        clientTags[index]);
+                                                  });
+
+                                                  return true;
+                                                }),
+                                            textOverflow: TextOverflow.ellipsis,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ElevatedButton(
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        size: 6,
+                                      ),
+                                    ),
+                                    Text('Back'),
+                                  ],
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context, true);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ElevatedButton(
+                                  child: Row(
+                                    children: [
+                                      Text('Next'),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0),
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 6,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.blue,
+                                  ),
+                                  onPressed: () {
+                                    if (_formKey.currentState.validate()) {
+                                      Navigator.pop(context, true);
+                                      showInformationDialog2(context);
+                                    }
+
+                                    /* if (_formKey.currentState.validate()) {
+                            // Do something like updating SharedPreferences or User Settings etc.
+                            Navigator.pop(context, true);
+                            showInformationDialog2(context);
+                          }*/
+                                  }),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+              actions: <Widget>[],
+            );
+          });
+        });
+  }
+
+  Future<void> showInformationDialog2(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          final _formKey = GlobalKey<FormState>();
+
+          return StatefulBuilder(builder: (context, setState) {
+            return  AlertDialog(
+                insetPadding: EdgeInsets.symmetric(horizontal: 8),
+                content: Container(
+                    width: 600,
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Tag & Annot this document",
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            Text("Add a new entry",
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Add a modification title",
+                                  style: TextStyle(
+                                    fontFamily: 'Ubuntu',
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Expanded(
+                                  child: TextFormField(
+                                    controller: _modificationTitleController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Title',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Add new Tags",
+                                  style: TextStyle(
+                                    fontFamily: 'Ubuntu',
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                        controller: _tagsController,
+                                        validator: (String value) {
+                                          return tagsTags.isNotEmpty
+                                              ? null
+                                              : "Add at least one sector";
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'Document Name',
+                                          labelText: 'Tags',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () => {
+                                              setState(() {
+                                                tagsTags
+                                                    .add(_tagsController.text);
+                                              }),
+                                              _tagsController =
+                                                  TextEditingController(text: "")
+                                            },
+                                        child: Text("+ Add")),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Tags(
+                                  alignment: WrapAlignment.center,
+                                  itemCount: tagsTags.length,
+                                  itemBuilder: (index) {
+                                    return ItemTags(
+                                      index: index,
+                                      title: tagsTags[index],
+                                      color: Colors.blue,
+                                      activeColor: Colors.blueGrey,
+                                      highlightColor: Colors.transparent,
+                                      splashColor: Colors.transparent,
+                                      elevation: 0.0,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(7.0)),
+//                textColor: ,
+                                      textColor: Colors.white,
+                                      textActiveColor: Colors.white,
+                                      removeButton: ItemTagsRemoveButton(
+                                          color: Colors.black,
+                                          backgroundColor: Colors.transparent,
+                                          size: 14,
+                                          onRemoved: () {
+                                            setState(() {
+                                              tagsTags.remove(tagsTags[index]);
+                                            });
+
+                                            return true;
+                                          }),
+                                      textOverflow: TextOverflow.ellipsis,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
+                            children: [
+                              Text("Add a new annotation",
+                                  style: TextStyle(
+                                    fontFamily: 'Ubuntu',
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ElevatedButton(
+                                onPressed: () => {},
+                                child: Text("VIEW ANNOTATIONS HISTORY",
+                                    style: TextStyle(
+                                      fontFamily: 'Ubuntu',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: TextFormField(
+                            controller: _annotationController,
+                            decoration: InputDecoration(
+                              labelText: 'Annotation',
+                              border: OutlineInputBorder(),
+                            ),
+                            maxLines: 4,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ElevatedButton(
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        size: 6,
+                                      ),
+                                    ),
+                                    Text('Back'),
+                                  ],
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context, true);
+                                  showInformationDialog(context);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ElevatedButton(
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal:5.0),
+                                      child: Icon(Icons.upload_sharp, size: 10,),
+                                    ),
+                                    Text('Upload'),
+                                  ],
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    // Do something like updating SharedPreferences or User Settings etc.
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    )),
+            );
+          });
+        });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
@@ -61,13 +636,21 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.symmetric(horizontal: 50),
         color: Colors.white,
         child: Row(children: [
-
           /// Left Side of the page
           Expanded(
             flex: 4,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  ElevatedButton(
+                      onPressed: () async {
+                        await showInformationDialog(context);
+                      },
+                      //(){Navigator.push(context, MaterialPageRoute(builder:(context)=> DragAndDrop()));} ,
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue,
+                      ),
+                      child: Text("Upload")),
                   Expanded(
                     child: ListView(
                       children: [
