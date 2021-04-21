@@ -637,12 +637,14 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
         color: Colors.white,
         child: Row(children: [
           /// Left Side of the page
-          Expanded(
+           Expanded(
             flex: 4,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ElevatedButton(
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+                child:ElevatedButton(
                       onPressed: () async {
                         await showInformationDialog(context);
                       },
@@ -650,7 +652,10 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue,
                       ),
-                      child: Text("Upload")),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                            Icon(Icons.upload_sharp, size:10), Text("Upload")])) ),
                   Expanded(
                     child: ListView(
                       children: [

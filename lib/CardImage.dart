@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'ListTags.dart';
+
 final listTagConfirmed = List<String>.generate(20, (i) => "Item $i");
 
 class CardImage extends StatelessWidget {
@@ -65,27 +67,8 @@ class CardImage extends StatelessWidget {
           SizedBox(height: 20),
 
           ///Tags
-          Container(
-            child: Wrap(children: [
-              for (var i in listTagConfirmed)
-                Container(
-                  margin: EdgeInsets.all(5.0),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                  decoration: BoxDecoration(
-                    color: const  Color(0xFF2B0A3D),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Text(
-                    i.toString(),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-            ]),
-          ),
+          ListTags(numberOfVisibleTags: 3,listTags: listTagConfirmed),
+
           SizedBox(height: 10),
 
           ///Images
