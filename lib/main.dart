@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:marketpulse_ui/DragAndDrop.dart';
+import 'package:marketpulse_ui/widgets/datatable_industry.dart';
 
 import 'CardImage.dart';
 import 'CardRFP.dart';
 import 'CardSound.dart';
 import 'CardVideo.dart';
-import 'customAppBar.dart';
 
-// Variables used as examples:
+import "package:marketpulse_ui/Gallery.dart";
+import 'package:marketpulse_ui/provider/ChangeThemeProvider.dart';
+import 'package:marketpulse_ui/ui/dashboard_industry.dart';
+
+import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:provider/provider.dart';
+
+import 'CustomAppBar.dart';
+import 'theme_config.dart';
+
 var title = "Application as a Service - Apprenda";
 var description =
     "Applications As a Service - Apprenda Our Offering Our Offering Learn more about our Kubernetes-enabled product offering. Apprenda Cloud Platform Learn More.";
@@ -30,21 +40,15 @@ List<String> categorySelectedFiles = [
 ];
 
 void main() {
-  runApp(MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-    );
-  }
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ChangeThemeProvider()),
+    ],
+    child: MyApp()
+  ));
+
+//  runApp(MyApp());
 }
 
 class MyHomePage extends StatefulWidget {
@@ -113,9 +117,10 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                               children: [
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  const EdgeInsets.symmetric(vertical: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                     children: [
                                       Text("Upload with URL",
                                           style: TextStyle(
@@ -140,9 +145,10 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  const EdgeInsets.symmetric(vertical: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                     children: [
                                       Text("Add sector and client",
                                           style: TextStyle(
@@ -175,16 +181,17 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                               width: 5,
                                             ),
                                             ElevatedButton(
-                                                onPressed: () => {
-                                                      setState(() {
-                                                        sectorTags.add(
-                                                            _sectorController
-                                                                .text);
-                                                      }),
-                                                      _sectorController =
-                                                          TextEditingController(
-                                                              text: "")
-                                                    },
+                                                onPressed: () =>
+                                                {
+                                                  setState(() {
+                                                    sectorTags.add(
+                                                        _sectorController
+                                                            .text);
+                                                  }),
+                                                  _sectorController =
+                                                      TextEditingController(
+                                                          text: "")
+                                                },
                                                 child: Text("+ Add")),
                                           ],
                                         ),
@@ -200,7 +207,8 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                               title: sectorTags[index],
                                               color: Colors.blue,
                                               activeColor: Colors.blueGrey,
-                                              highlightColor: Colors.transparent,
+                                              highlightColor: Colors
+                                                  .transparent,
                                               splashColor: Colors.transparent,
                                               elevation: 0.0,
                                               borderRadius: BorderRadius.all(
@@ -211,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                               removeButton: ItemTagsRemoveButton(
                                                   color: Colors.black,
                                                   backgroundColor:
-                                                      Colors.transparent,
+                                                  Colors.transparent,
                                                   size: 14,
                                                   onRemoved: () {
                                                     setState(() {
@@ -221,7 +229,8 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
 
                                                     return true;
                                                   }),
-                                              textOverflow: TextOverflow.ellipsis,
+                                              textOverflow: TextOverflow
+                                                  .ellipsis,
                                             );
                                           },
                                         ),
@@ -249,16 +258,17 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                               width: 5,
                                             ),
                                             ElevatedButton(
-                                                onPressed: () => {
-                                                      setState(() {
-                                                        clientTags.add(
-                                                            _clientController
-                                                                .text);
-                                                      }),
-                                                      _clientController =
-                                                          TextEditingController(
-                                                              text: "")
-                                                    },
+                                                onPressed: () =>
+                                                {
+                                                  setState(() {
+                                                    clientTags.add(
+                                                        _clientController
+                                                            .text);
+                                                  }),
+                                                  _clientController =
+                                                      TextEditingController(
+                                                          text: "")
+                                                },
                                                 child: Text("+ Add")),
                                           ],
                                         ),
@@ -277,7 +287,8 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                               onPressed: (Item item) {
                                                 print('pressed');
                                               },
-                                              highlightColor: Colors.transparent,
+                                              highlightColor: Colors
+                                                  .transparent,
                                               splashColor: Colors.transparent,
                                               elevation: 0.0,
                                               borderRadius: BorderRadius.all(
@@ -288,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                               removeButton: ItemTagsRemoveButton(
                                                   color: Colors.black,
                                                   backgroundColor:
-                                                      Colors.transparent,
+                                                  Colors.transparent,
                                                   size: 14,
                                                   onRemoved: () {
                                                     setState(() {
@@ -298,7 +309,8 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
 
                                                     return true;
                                                   }),
-                                              textOverflow: TextOverflow.ellipsis,
+                                              textOverflow: TextOverflow
+                                                  .ellipsis,
                                             );
                                           },
                                         ),
@@ -315,7 +327,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              const EdgeInsets.symmetric(horizontal: 8.0),
                               child: ElevatedButton(
                                 child: Row(
                                   children: [
@@ -340,7 +352,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              const EdgeInsets.symmetric(horizontal: 8.0),
                               child: ElevatedButton(
                                   child: Row(
                                     children: [
@@ -374,19 +386,21 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top:10.0),
+                          padding: const EdgeInsets.only(top: 10.0),
                           child: Row(
-                            mainAxisAlignment:  MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal:5.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.0),
                                 child: SizedBox(
                                   height: 5,
                                   width: 5,
                                   child: Container(
                                     decoration: BoxDecoration(
                                         color: Colors.blue,
-                                        borderRadius: BorderRadius.all(Radius.circular(20))
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))
                                     ),
                                   ),
                                 ),
@@ -399,7 +413,8 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                       border: Border.all(
                                         color: Colors.blue,
                                       ),
-                                      borderRadius: BorderRadius.all(Radius.circular(20))
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))
                                   ),
                                 ),
                               )
@@ -423,277 +438,282 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
           final _formKey = GlobalKey<FormState>();
 
           return StatefulBuilder(builder: (context, setState) {
-            return  AlertDialog(
-                insetPadding: EdgeInsets.symmetric(horizontal: 8),
-                content: Container(
-                    width: 600,
-                    key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
+            return AlertDialog(
+              insetPadding: EdgeInsets.symmetric(horizontal: 8),
+              content: Container(
+                  width: 600,
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Tag & Annot this document",
+                              style: TextStyle(
+                                fontFamily: 'Ubuntu',
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                              )),
+                          Text("Add a new entry",
+                              style: TextStyle(
+                                fontFamily: 'Ubuntu',
+                                fontSize: 14,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                              )),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Tag & Annot this document",
+                            Text("Add a modification title",
                                 style: TextStyle(
                                   fontFamily: 'Ubuntu',
                                   fontSize: 20,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                 )),
-                            Text("Add a new entry",
-                                style: TextStyle(
-                                  fontFamily: 'Ubuntu',
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Add a modification title",
-                                  style: TextStyle(
-                                    fontFamily: 'Ubuntu',
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                  )),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Expanded(
-                                  child: TextFormField(
-                                    controller: _modificationTitleController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Title',
-                                      border: OutlineInputBorder(),
-                                    ),
+                            Padding(
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Expanded(
+                                child: TextFormField(
+                                  controller: _modificationTitleController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Title',
+                                    border: OutlineInputBorder(),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Add new Tags",
-                                  style: TextStyle(
-                                    fontFamily: 'Ubuntu',
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                  )),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                        controller: _tagsController,
-                                        validator: (String value) {
-                                          return tagsTags.isNotEmpty
-                                              ? null
-                                              : "Add at least one sector";
-                                        },
-                                        decoration: InputDecoration(
-                                          hintText: 'Document Name',
-                                          labelText: 'Tags',
-                                          border: OutlineInputBorder(),
-                                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Add new Tags",
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            Padding(
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _tagsController,
+                                      validator: (String value) {
+                                        return tagsTags.isNotEmpty
+                                            ? null
+                                            : "Add at least one sector";
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: 'Document Name',
+                                        labelText: 'Tags',
+                                        border: OutlineInputBorder(),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () => {
-                                              setState(() {
-                                                tagsTags
-                                                    .add(_tagsController.text);
-                                              }),
-                                              _tagsController =
-                                                  TextEditingController(text: "")
-                                            },
-                                        child: Text("+ Add")),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () =>
+                                      {
+                                        setState(() {
+                                          tagsTags
+                                              .add(_tagsController.text);
+                                        }),
+                                        _tagsController =
+                                            TextEditingController(text: "")
+                                      },
+                                      child: Text("+ Add")),
+                                ],
                               ),
-                              Container(
-                                alignment: Alignment.topLeft,
-                                child: Tags(
-                                  alignment: WrapAlignment.center,
-                                  itemCount: tagsTags.length,
-                                  itemBuilder: (index) {
-                                    return ItemTags(
-                                      index: index,
-                                      title: tagsTags[index],
-                                      color: Colors.blue,
-                                      activeColor: Colors.blueGrey,
-                                      highlightColor: Colors.transparent,
-                                      splashColor: Colors.transparent,
-                                      elevation: 0.0,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(7.0)),
+                            ),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Tags(
+                                alignment: WrapAlignment.center,
+                                itemCount: tagsTags.length,
+                                itemBuilder: (index) {
+                                  return ItemTags(
+                                    index: index,
+                                    title: tagsTags[index],
+                                    color: Colors.blue,
+                                    activeColor: Colors.blueGrey,
+                                    highlightColor: Colors.transparent,
+                                    splashColor: Colors.transparent,
+                                    elevation: 0.0,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(7.0)),
 //                textColor: ,
-                                      textColor: Colors.white,
-                                      textActiveColor: Colors.white,
-                                      removeButton: ItemTagsRemoveButton(
-                                          color: Colors.black,
-                                          backgroundColor: Colors.transparent,
-                                          size: 14,
-                                          onRemoved: () {
-                                            setState(() {
-                                              tagsTags.remove(tagsTags[index]);
-                                            });
+                                    textColor: Colors.white,
+                                    textActiveColor: Colors.white,
+                                    removeButton: ItemTagsRemoveButton(
+                                        color: Colors.black,
+                                        backgroundColor: Colors.transparent,
+                                        size: 14,
+                                        onRemoved: () {
+                                          setState(() {
+                                            tagsTags.remove(tagsTags[index]);
+                                          });
 
-                                            return true;
-                                          }),
-                                      textOverflow: TextOverflow.ellipsis,
-                                    );
-                                  },
-                                ),
+                                          return true;
+                                        }),
+                                    textOverflow: TextOverflow.ellipsis,
+                                  );
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Divider(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Column(
-                            children: [
-                              Text("Add a new annotation",
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Column(
+                          children: [
+                            Text("Add a new annotation",
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            ElevatedButton(
+                              onPressed: () => {},
+                              child: Text("VIEW ANNOTATIONS HISTORY",
                                   style: TextStyle(
                                     fontFamily: 'Ubuntu',
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
                                   )),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              ElevatedButton(
-                                onPressed: () => {},
-                                child: Text("VIEW ANNOTATIONS HISTORY",
-                                    style: TextStyle(
-                                      fontFamily: 'Ubuntu',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: TextFormField(
-                            controller: _annotationController,
-                            decoration: InputDecoration(
-                              labelText: 'Annotation',
-                              border: OutlineInputBorder(),
                             ),
-                            maxLines: 4,
-                          ),
+                          ],
                         ),
-                        Row(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: TextFormField(
+                          controller: _annotationController,
+                          decoration: InputDecoration(
+                            labelText: 'Annotation',
+                            border: OutlineInputBorder(),
+                          ),
+                          maxLines: 4,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ElevatedButton(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      size: 6,
+                                    ),
+                                  ),
+                                  Text('Back'),
+                                ],
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context, true);
+                                showInformationDialog(context);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ElevatedButton(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    child: Icon(Icons.upload_sharp, size: 10,),
+                                  ),
+                                  Text('Upload'),
+                                ],
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.blue,
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  // Do something like updating SharedPreferences or User Settings etc.
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: ElevatedButton(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        size: 6,
-                                      ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.0),
+                                child:
+                                SizedBox(
+                                  height: 5,
+                                  width: 5,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.blue,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))
                                     ),
-                                    Text('Back'),
-                                  ],
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red,
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context, true);
-                                  showInformationDialog(context);
-                                },
-                              ),
+                                  ),
+                                )
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: ElevatedButton(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal:5.0),
-                                      child: Icon(Icons.upload_sharp, size: 10,),
-                                    ),
-                                    Text('Upload'),
-                                  ],
+                            SizedBox(
+                              height: 5,
+                              width: 5,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20))
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.blue,
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    // Do something like updating SharedPreferences or User Settings etc.
-                                    Navigator.of(context).pop();
-                                  }
-                                },
                               ),
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top:10.0),
-                          child: Row(
-                            mainAxisAlignment:  MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal:5.0),
-                                  child:
-                                  SizedBox(
-                                    height: 5,
-                                    width: 5,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.blue,
-                                          ),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-                                      ),
-                                    ),
-                                  )
-                              ),
-                              SizedBox(
-                                height: 5,
-                                width: 5,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.all(Radius.circular(20))
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    )),
+                      )
+                    ],
+                  )),
             );
           });
         });
@@ -706,29 +726,33 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
         padding: EdgeInsets.symmetric(horizontal: 50),
         color: Colors.white,
         child: Row(children: [
+
           /// Left Side of the page
-           Expanded(
+          Expanded(
             flex: 4,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-            Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-                child:ElevatedButton(
-                      onPressed: () async {
-                        await showInformationDialog(context);
-                      },
-                      //(){Navigator.push(context, MaterialPageRoute(builder:(context)=> DragAndDrop()));} ,
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                      ),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:[
-                            Icon(Icons.upload_sharp, size:10), Text("Upload")])) ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            await showInformationDialog(context);
+                          },
+                          //(){Navigator.push(context, MaterialPageRoute(builder:(context)=> DragAndDrop()));} ,
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.blue,
+                          ),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.upload_sharp, size: 10),
+                                Text("Upload")
+                              ]))),
                   Expanded(
                     child: ListView(
                       children: [
+
                         ///List of all the previous results
                         CardRFP(
                             title: title,
@@ -749,7 +773,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
             child: Card(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8),
                 child: ListView(
                   children: [
                     Column(
@@ -767,7 +791,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                             decoration: BoxDecoration(
                               color: Colors.grey,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                             ),
                             child: Text(
                               "Search",
@@ -787,7 +811,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                             decoration: BoxDecoration(
                               color: const Color(0xFF2B0A3D),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -810,7 +834,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                             decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -834,7 +858,7 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                             decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -859,8 +883,8 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
 
                     ///Categories
                     for (var index = 0;
-                        index < categorySelectedFiles.length;
-                        index++)
+                    index < categorySelectedFiles.length;
+                    index++)
                       ExpansionTile(
                         title: Text(
                           categorySelectedFiles[index],
@@ -885,5 +909,28 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
         ]),
       ),
     );
+  }
+}
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final isPlatformDark =
+        WidgetsBinding.instance.window.platformBrightness == Brightness.dark;
+    final initTheme = isPlatformDark ? darkTheme : lightTheme;
+//    return ThemeProvider(
+//      initTheme: initTheme,
+//      child: Builder(builder: (context) {
+        return Consumer<ChangeThemeProvider>(
+          builder: (context,change,_){
+            return MaterialApp(
+              title: 'Smart Content Database',
+//          theme: ThemeProvider.of(context),
+              theme: change.value,
+              home: DashboardIndustry(),
+            );
+          },
+        );
+//      }),
+//    );
   }
 }

@@ -22,33 +22,33 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: true,
-        title:
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Row(
-            children: [
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: true,
+      title:
+      Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          children: [
             SvgPicture.string(
-            logoCapgemini,
-            allowDrawingOutsideViewBox: true,
-            height: 30.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Market\nPulse',
-              style: TextStyle(
-                fontFamily: 'Ubuntu',
-                fontSize: 15,
-                color: const Color(0xff0070ad),
-                fontWeight: FontWeight.w700,
-                height: 1.08,
-              )
+              logoCapgemini,
+              allowDrawingOutsideViewBox: true,
+              height: 30.0,
             ),
-          )
-            ],
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Market\nPulse',
+                  style: TextStyle(
+                    fontFamily: 'Ubuntu',
+                    fontSize: 15,
+                    color: const Color(0xff0070ad),
+                    fontWeight: FontWeight.w700,
+                    height: 1.08,
+                  )
+              ),
+            )
+          ],
         ),
+      ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 24.0),
@@ -93,19 +93,16 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 }
 /*import 'package:flutter/material.dart';
-
 class Header extends StatelessWidget{
   final String name;
   final String job;
   final String profilePicture;
-
   const Header({
     Key key,
     this.name ="Alice RICHARD",
     this.job = "Capgemini Sales",
     this.profilePicture,
   }): super (key:key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
