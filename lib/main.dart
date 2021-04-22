@@ -107,205 +107,207 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                           ],
                         ),
                         SizedBox(
-                          height: 300,
-                          child: ListView(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Upload with URL",
-                                        style: TextStyle(
-                                          fontFamily: 'Ubuntu',
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700,
-                                        )),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: TextFormField(
-                                        controller: _urlController,
-                                        decoration: InputDecoration(
-                                            fillColor: Colors.grey,
-                                            border: OutlineInputBorder(),
-                                            hintText: 'Copy URL'),
+                          height: 280,
+                          child: Flexible(
+                            child: ListView(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Upload with URL",
+                                          style: TextStyle(
+                                            fontFamily: 'Ubuntu',
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700,
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: TextFormField(
+                                          controller: _urlController,
+                                          decoration: InputDecoration(
+                                              fillColor: Colors.grey,
+                                              border: OutlineInputBorder(),
+                                              hintText: 'Copy URL'),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Add sector and client",
-                                        style: TextStyle(
-                                          fontFamily: 'Ubuntu',
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700,
-                                        )),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: _sectorController,
-                                              validator: (String value) {
-                                                return sectorTags.isNotEmpty
-                                                    ? null
-                                                    : "Add at least one sector";
-                                              },
-                                              decoration: InputDecoration(
-                                                hintText: 'Document Name',
-                                                labelText: 'Sector',
-                                                border: OutlineInputBorder(),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Add sector and client",
+                                          style: TextStyle(
+                                            fontFamily: 'Ubuntu',
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700,
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextFormField(
+                                                controller: _sectorController,
+                                                validator: (String value) {
+                                                  return sectorTags.isNotEmpty
+                                                      ? null
+                                                      : "Add at least one sector";
+                                                },
+                                                decoration: InputDecoration(
+                                                  hintText: 'Document Name',
+                                                  labelText: 'Sector',
+                                                  border: OutlineInputBorder(),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          ElevatedButton(
-                                              onPressed: () => {
-                                                    setState(() {
-                                                      sectorTags.add(
-                                                          _sectorController
-                                                              .text);
-                                                    }),
-                                                    _sectorController =
-                                                        TextEditingController(
-                                                            text: "")
-                                                  },
-                                              child: Text("+ Add")),
-                                        ],
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () => {
+                                                      setState(() {
+                                                        sectorTags.add(
+                                                            _sectorController
+                                                                .text);
+                                                      }),
+                                                      _sectorController =
+                                                          TextEditingController(
+                                                              text: "")
+                                                    },
+                                                child: Text("+ Add")),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: Tags(
-                                        alignment: WrapAlignment.center,
-                                        itemCount: sectorTags.length,
-                                        itemBuilder: (index) {
-                                          return ItemTags(
-                                            index: index,
-                                            title: sectorTags[index],
-                                            color: Colors.blue,
-                                            activeColor: Colors.blueGrey,
-                                            highlightColor: Colors.transparent,
-                                            splashColor: Colors.transparent,
-                                            elevation: 0.0,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(7.0)),
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: Tags(
+                                          alignment: WrapAlignment.center,
+                                          itemCount: sectorTags.length,
+                                          itemBuilder: (index) {
+                                            return ItemTags(
+                                              index: index,
+                                              title: sectorTags[index],
+                                              color: Colors.blue,
+                                              activeColor: Colors.blueGrey,
+                                              highlightColor: Colors.transparent,
+                                              splashColor: Colors.transparent,
+                                              elevation: 0.0,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(7.0)),
 //                textColor: ,
-                                            textColor: Colors.white,
-                                            textActiveColor: Colors.white,
-                                            removeButton: ItemTagsRemoveButton(
-                                                color: Colors.black,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                size: 14,
-                                                onRemoved: () {
-                                                  setState(() {
-                                                    sectorTags.remove(
-                                                        sectorTags[index]);
-                                                  });
+                                              textColor: Colors.white,
+                                              textActiveColor: Colors.white,
+                                              removeButton: ItemTagsRemoveButton(
+                                                  color: Colors.black,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  size: 14,
+                                                  onRemoved: () {
+                                                    setState(() {
+                                                      sectorTags.remove(
+                                                          sectorTags[index]);
+                                                    });
 
-                                                  return true;
-                                                }),
-                                            textOverflow: TextOverflow.ellipsis,
-                                          );
-                                        },
+                                                    return true;
+                                                  }),
+                                              textOverflow: TextOverflow.ellipsis,
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: TextFormField(
-                                              controller: _clientController,
-                                              validator: (value) {
-                                                return clientTags.isNotEmpty
-                                                    ? null
-                                                    : "Add at least one client";
-                                              },
-                                              decoration: InputDecoration(
-                                                labelText: 'Client',
-                                                border: OutlineInputBorder(),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextFormField(
+                                                controller: _clientController,
+                                                validator: (value) {
+                                                  return clientTags.isNotEmpty
+                                                      ? null
+                                                      : "Add at least one client";
+                                                },
+                                                decoration: InputDecoration(
+                                                  labelText: 'Client',
+                                                  border: OutlineInputBorder(),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          ElevatedButton(
-                                              onPressed: () => {
-                                                    setState(() {
-                                                      clientTags.add(
-                                                          _clientController
-                                                              .text);
-                                                    }),
-                                                    _clientController =
-                                                        TextEditingController(
-                                                            text: "")
-                                                  },
-                                              child: Text("+ Add")),
-                                        ],
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () => {
+                                                      setState(() {
+                                                        clientTags.add(
+                                                            _clientController
+                                                                .text);
+                                                      }),
+                                                      _clientController =
+                                                          TextEditingController(
+                                                              text: "")
+                                                    },
+                                                child: Text("+ Add")),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.topLeft,
-                                      child: Tags(
-                                        alignment: WrapAlignment.center,
-                                        itemCount: clientTags.length,
-                                        itemBuilder: (index) {
-                                          return ItemTags(
-                                            index: index,
-                                            title: sectorTags[index],
-                                            color: Colors.blue,
-                                            activeColor: Colors.blueGrey,
-                                            onPressed: (Item item) {
-                                              print('pressed');
-                                            },
-                                            highlightColor: Colors.transparent,
-                                            splashColor: Colors.transparent,
-                                            elevation: 0.0,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(7.0)),
+                                      Container(
+                                        alignment: Alignment.topLeft,
+                                        child: Tags(
+                                          alignment: WrapAlignment.center,
+                                          itemCount: clientTags.length,
+                                          itemBuilder: (index) {
+                                            return ItemTags(
+                                              index: index,
+                                              title: sectorTags[index],
+                                              color: Colors.blue,
+                                              activeColor: Colors.blueGrey,
+                                              onPressed: (Item item) {
+                                                print('pressed');
+                                              },
+                                              highlightColor: Colors.transparent,
+                                              splashColor: Colors.transparent,
+                                              elevation: 0.0,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(7.0)),
 //                textColor: ,
-                                            textColor: Colors.white,
-                                            textActiveColor: Colors.white,
-                                            removeButton: ItemTagsRemoveButton(
-                                                color: Colors.black,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                size: 14,
-                                                onRemoved: () {
-                                                  setState(() {
-                                                    clientTags.remove(
-                                                        clientTags[index]);
-                                                  });
+                                              textColor: Colors.white,
+                                              textActiveColor: Colors.white,
+                                              removeButton: ItemTagsRemoveButton(
+                                                  color: Colors.black,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  size: 14,
+                                                  onRemoved: () {
+                                                    setState(() {
+                                                      clientTags.remove(
+                                                          clientTags[index]);
+                                                    });
 
-                                                  return true;
-                                                }),
-                                            textOverflow: TextOverflow.ellipsis,
-                                          );
-                                        },
+                                                    return true;
+                                                  }),
+                                              textOverflow: TextOverflow.ellipsis,
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Row(
@@ -371,10 +373,44 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                             )
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top:10.0),
+                          child: Row(
+                            mainAxisAlignment:  MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:5.0),
+                                child: SizedBox(
+                                  height: 5,
+                                  width: 5,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.all(Radius.circular(20))
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                                width: 5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.blue,
+                                      ),
+                                      borderRadius: BorderRadius.all(Radius.circular(20))
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   )),
-              actions: <Widget>[],
+              actions: <Widget>[
+              ],
             );
           });
         });
@@ -619,9 +655,43 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
                                   }
                                 },
                               ),
-                            )
+                            ),
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top:10.0),
+                          child: Row(
+                            mainAxisAlignment:  MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal:5.0),
+                                  child:
+                                  SizedBox(
+                                    height: 5,
+                                    width: 5,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.blue,
+                                          ),
+                                          borderRadius: BorderRadius.all(Radius.circular(20))
+                                      ),
+                                    ),
+                                  )
+                              ),
+                              SizedBox(
+                                height: 5,
+                                width: 5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.all(Radius.circular(20))
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     )),
             );

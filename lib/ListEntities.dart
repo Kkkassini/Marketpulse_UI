@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ListTags extends StatelessWidget {
-  final List<String> listTags;
-  final int numberOfVisibleTags;
+class ListEntities extends StatelessWidget {
+  final List<String> listEntities;
+  final int numberOfVisibleEntities;
 
-  const ListTags({Key key, this.numberOfVisibleTags = 10, this.listTags})
+  const ListEntities({Key key, this.numberOfVisibleEntities = 10, this.listEntities})
       : super(key: key);
 
-  Future<void> showAllTags(BuildContext context) async {
+  Future<void> showAllEntities(BuildContext context) async {
     return await showDialog(
         context: context,
         builder: (context) {
@@ -17,14 +17,14 @@ class ListTags extends StatelessWidget {
                     height: 300,
                     width: 300,
                     child: ListView(children: [
-                      for (int i = numberOfVisibleTags;
-                          i < listTags.length;
+                      for (int i = numberOfVisibleEntities;
+                          i < listEntities.length;
                           i++)
                         Column(children: [
                           Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child:
-                              Text(listTags[i])),
+                              Text(listEntities[i])),
                           Divider()
                         ])
                     ])));
@@ -40,7 +40,7 @@ class ListTags extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          for (int index = 0; index < numberOfVisibleTags; index++)
+          for (int index = 0; index < numberOfVisibleEntities; index++)
             Container(
                 height: 20,
                 margin: EdgeInsets.all(5.0),
@@ -51,7 +51,7 @@ class ListTags extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    listTags[index],
+                    listEntities[index],
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.white,
@@ -60,13 +60,13 @@ class ListTags extends StatelessWidget {
                 )),
           TextButton(
               onPressed: () async {
-                await showAllTags(context);
+                await showAllEntities(context);
               },
               //(){Navigator.push(context, MaterialPageRoute(builder:(context)=> DragAndDrop()));} ,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text(
-                  "See ${listTags.length - numberOfVisibleTags} more tags",
+                  "See ${listEntities.length - numberOfVisibleEntities} more entities",
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.black,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ListTags.dart';
+import 'ListEntities.dart';
 
 class CardRFP extends StatelessWidget {
   final String title;
@@ -11,7 +11,7 @@ class CardRFP extends StatelessWidget {
   final bool displayAsCard;
 
 
-  final List<String> listTagConfirmed;
+  final List<String> listEntitiesConfirmed;
   @override
   CardRFP({
     this.title = "Missing Title",
@@ -20,9 +20,9 @@ class CardRFP extends StatelessWidget {
     this.link = "Unknown",
     this.date,
     this.displayAsCard = true, /// if true: prints the tags and the buttons. Usefull when calling CardRfp for other cards such as CardSound or CardVideo.
-    listTagConfirmed,
+    listEntitiesConfirmed,
   })///List of fake Tags
-    : listTagConfirmed =listTagConfirmed ?? List<String>.generate(30, (i) => "Item $i");
+    : listEntitiesConfirmed =listEntitiesConfirmed ?? List<String>.generate(30, (i) => "Item $i");
 
   @override
   Widget build(BuildContext context) {
@@ -127,8 +127,8 @@ class CardRFP extends StatelessWidget {
           )),
           SizedBox(height: 10),
 
-          ///Tags
-          ListTags(numberOfVisibleTags: 3,listTags: listTagConfirmed),
+          ///Entities
+          ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
           SizedBox(height: 10),
 
           ///Buttons

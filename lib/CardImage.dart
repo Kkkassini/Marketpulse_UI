@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'ListTags.dart';
+import 'ListEntities.dart';
 
-final listTagConfirmed = List<String>.generate(20, (i) => "Item $i");
+final listEntitiesConfirmed = List<String>.generate(20, (i) => "Item $i");
 
 class CardImage extends StatelessWidget {
   final String name;
@@ -66,8 +66,8 @@ class CardImage extends StatelessWidget {
           ),
           SizedBox(height: 20),
 
-          ///Tags
-          ListTags(numberOfVisibleTags: 3,listTags: listTagConfirmed),
+          ///Entities
+          ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
 
           SizedBox(height: 10),
 

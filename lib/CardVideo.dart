@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marketpulse_ui/CardRFP.dart';
 
-import 'ListTags.dart';
+import 'ListEntities.dart';
 
-final listTagConfirmed = List<String>.generate(20, (i) => "Item $i");
+final listEntitiesConfirmed = List<String>.generate(20, (i) => "Item $i");
 
 class CardVideo extends StatelessWidget {
   final String name;
@@ -68,8 +68,8 @@ class CardVideo extends StatelessWidget {
           ),
           SizedBox(height: 20),
 
-          ///Tags
-          ListTags(numberOfVisibleTags: 3,listTags: listTagConfirmed),
+          ///Entities
+          ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
           SizedBox(height: 10),
 
           ///CardRfp with Videos

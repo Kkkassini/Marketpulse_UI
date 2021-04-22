@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marketpulse_ui/CardRFP.dart';
-import 'package:marketpulse_ui/ListTags.dart';
+import 'package:marketpulse_ui/ListEntities.dart';
 
-final  List<String> listTagConfirmed = List<String>.generate(20, (i) => "Item $i");
+final  List<String> listEntitiesConfirmed = List<String>.generate(20, (i) => "Item $i");
 
 class CardSound extends StatelessWidget {
   final String name;
@@ -66,8 +66,8 @@ class CardSound extends StatelessWidget {
           ),
           SizedBox(height: 20),
 
-          ///Tags
-          ListTags(numberOfVisibleTags: 3,listTags: listTagConfirmed),
+          ///Entities
+          ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
           SizedBox(height: 10),
 
           ///CardRfp with associated sounds
