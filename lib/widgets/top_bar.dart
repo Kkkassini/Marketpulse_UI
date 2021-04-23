@@ -290,7 +290,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                           itemBuilder: (index) {
                                             return ItemTags(
                                               index: index,
-                                              title: sectorTags[index],
+                                              title: clientTags[index],
                                               color: Colors.blue,
                                               activeColor: Colors.blueGrey,
                                               onPressed: (Item item) {

@@ -63,7 +63,7 @@ class CardSound extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
 
             ///Entities
             ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
