@@ -18,91 +18,91 @@ class CardSound extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          border: Border.all(
-            color: const Color(0xFFF1F1F1),
-            width: 1,
-          )),
 
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-          ///Title
-          Container(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: RichText(
-                            text: TextSpan(
-                                text: 'Sounds results for',
-                                style: TextStyle(
-                                  fontFamily: 'Ubuntu',
-                                  fontSize: 22,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
+            ///Title
+            Container(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                            alignment: Alignment.topLeft,
+                            child: RichText(
+                              text: TextSpan(
+                                  text: 'Sounds results for',
+                                  style: TextStyle(
+                                    fontFamily: 'Ubuntu',
+                                    fontSize: 22,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: ' ${name} (${listSounds.length})',
+                                        style: TextStyle(
+                                          fontFamily: 'Ubuntu',
+                                          fontSize: 22,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                  ]),
+                            )),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            ///Entities
+            ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
+            SizedBox(height: 10),
+
+            ///CardRfp with associated sounds
+            Container(
+              child: Column(
+                children: [
+                  for (var index in listSounds)
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+
+                          ),
+                              child: SizedBox(
+                                height: 100,
+                                child:
+                                Center(
+                                  child: Icon(Icons.play_circle_fill)
                                 ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: ' ${name} (${listSounds.length})',
-                                      style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        fontSize: 22,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                      )),
-                                ]),
-                          )),
-                    ],
-                  ),
-                ),
-              ],
+                              ),
+                        )),
+                        Expanded(
+                          flex: 2,
+                          child:
+                            listSounds[listSounds.indexOf(index)]
+                          ),
+                      ],
+                    ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 20),
-
-          ///Entities
-          ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
-          SizedBox(height: 10),
-
-          ///CardRfp with associated sounds
-          Container(
-            child: Column(
-              children: [
-                for (var index in listSounds)
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-
-                        ),
-                            child: SizedBox(
-                              height: 100,
-                            ),
-                      )),
-                      Expanded(
-                        flex: 2,
-                        child:
-                          listSounds[listSounds.indexOf(index)]
-                        ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

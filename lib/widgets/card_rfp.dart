@@ -26,144 +26,140 @@ class CardRFP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          border: Border.all(
-            color: const Color(0xFFF1F1F1),
-            width: 1,
-          )),
       child:
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// Title, Link, Date and Source
-          Container(
-            child: Row(
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Title, Link, Date and Source
+            Container(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(title,
+                              style: TextStyle(
+                                fontFamily: 'Ubuntu',
+                                fontSize: 22,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w700,
+                              )),
+                        ),
+                        Row(
+                          children: [
+                            Text(source,
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                            Spacer(),
+                            Text("15.02.2021",
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                            Spacer(),
+                            Text(link,
+                                style: TextStyle(
+                                  fontFamily: 'Ubuntu',
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                            Spacer(flex: 30),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (displayAsCard)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child:
+                    Icon(Icons.share, color: Colors.grey, size: 24),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+
+            /// Description
+            Container(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(title,
-                            style: TextStyle(
-                              fontFamily: 'Ubuntu',
-                              fontSize: 22,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w700,
-                            )),
-                      ),
-                      Row(
-                        children: [
-                          Text(source,
-                              style: TextStyle(
-                                fontFamily: 'Ubuntu',
-                                fontSize: 12,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w400,
-                              )),
-                          Spacer(),
-                          Text("15.02.2021",
-                              style: TextStyle(
-                                fontFamily: 'Ubuntu',
-                                fontSize: 12,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w400,
-                              )),
-                          Spacer(),
-                          Text(link,
-                              style: TextStyle(
-                                fontFamily: 'Ubuntu',
-                                fontSize: 12,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w400,
-                              )),
-                          Spacer(flex: 30),
-                        ],
-                      ),
-                    ],
+                Text(
+                  "Description:",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontFamily: 'Ubuntu',
+                    fontSize: 14,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                if (displayAsCard)
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child:
-                  Icon(Icons.share, color: Colors.grey, size: 24),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontFamily: 'Ubuntu',
+                    fontSize: 14,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
-            ),
-          ),
-          SizedBox(height: 10),
+            )),
+            SizedBox(height: 10),
 
-          /// Description
-          Container(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Description:",
-                style: TextStyle(
-                  decoration: TextDecoration.underline,
-                  fontFamily: 'Ubuntu',
-                  fontSize: 14,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              Text(
-                description,
-                style: TextStyle(
-                  fontFamily: 'Ubuntu',
-                  fontSize: 14,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          )),
-          SizedBox(height: 10),
+            ///Entities
+            if (displayAsCard)
+            ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
+            SizedBox(height: 10),
 
-          ///Entities
-          if (displayAsCard)
-          ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
-          SizedBox(height: 10),
-
-          ///Buttons
-          Row(
-            children: [
-              if (displayAsCard)
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                ),
-                child: Text("Analyse",
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              ),
-              if (displayAsCard)
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: ElevatedButton(
+            ///Buttons
+            Row(
+              children: [
+                if (displayAsCard)
+                ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                        side: BorderSide(color: const Color(0xFFF1F1F1), width: 0.2)
+                    primary: Colors.blue,
                   ),
-                  child: Text("Tag and annot",
+                  child: Text("Analyse",
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Colors.white,
                       )),
                 ),
-              ),
-            ]
-          ),
-        ],
+                if (displayAsCard)
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                          side: BorderSide(color: const Color(0xFFF1F1F1), width: 0.2)
+                    ),
+                    child: Text("Tag and annot",
+                        style: TextStyle(
+                          color: Colors.blue,
+                        )),
+                  ),
+                ),
+              ]
+            ),
+          ],
+        ),
       ),
     );
   }

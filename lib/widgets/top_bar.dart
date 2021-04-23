@@ -409,7 +409,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   width: 5,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.blue,
+                                        color: Colors.black,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20))),
                                   ),
@@ -421,7 +421,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                 child: Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                        color: Colors.blue,
+                                        color: Colors.black,
                                       ),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
@@ -700,7 +700,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   child: Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Colors.blue,
+                                          color: Colors.black,
                                         ),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20))),
@@ -711,7 +711,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                               width: 5,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Colors.blue,
+                                    color: Colors.black,
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
                               ),
