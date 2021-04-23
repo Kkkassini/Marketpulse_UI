@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ListEntities.dart';
+import 'list_entities.dart';
 
 class CardRFP extends StatelessWidget {
   final String title;
@@ -165,6 +165,5 @@ class CardRFP extends StatelessWidget {
         ],
       ),
     );
-    throw UnimplementedError();
   }
 }

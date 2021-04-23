@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ListEntities.dart';
+import 'list_entities.dart';
 
 final listEntitiesConfirmed = List<String>.generate(20, (i) => "Item $i");
 

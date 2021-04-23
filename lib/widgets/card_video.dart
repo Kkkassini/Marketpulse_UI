@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marketpulse_ui/CardRFP.dart';
+import 'card_rfp.dart';
 
-import 'ListEntities.dart';
+import 'list_entities.dart';
 
 final listEntitiesConfirmed = List<String>.generate(20, (i) => "Item $i");
 
