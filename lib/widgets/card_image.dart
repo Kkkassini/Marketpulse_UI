@@ -15,7 +15,7 @@ class CardImage extends StatelessWidget {
   }) /// List of fake images, here 5
       : listImages = listImages ??
             List<Widget>.generate(
-                5, (i) => Image.asset('../assets/defaultImage.png'));
+                20, (i) => Image.asset('../assets/defaultImage.png'));
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,12 @@ class CardImage extends StatelessWidget {
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF1F1F1),
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          border: Border.all(
+            color: const Color(0xFFF1F1F1),
+            width: 1,
+          )),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

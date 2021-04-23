@@ -13,21 +13,22 @@ class ListEntities extends StatelessWidget {
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
-                content: SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: ListView(children: [
-                      for (int i = numberOfVisibleEntities;
-                          i < listEntities.length;
-                          i++)
-                        Column(children: [
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child:
-                              Text(listEntities[i])),
-                          Divider()
-                        ])
-                    ])));
+                content: Container(
+                  width: 300,
+                  child: ListView(children: [
+                    for (int i = numberOfVisibleEntities;
+                        i < listEntities.length;
+                        i++)
+                      Column(  mainAxisSize: MainAxisSize.min, children: [
+
+                        Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child:
+                            Text(listEntities[i])),
+                        Divider()
+                      ])
+                  ]),
+                ));
           });
         });
   }

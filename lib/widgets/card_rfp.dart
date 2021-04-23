@@ -128,6 +128,7 @@ class CardRFP extends StatelessWidget {
           SizedBox(height: 10),
 
           ///Entities
+          if (displayAsCard)
           ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
           SizedBox(height: 10),
 

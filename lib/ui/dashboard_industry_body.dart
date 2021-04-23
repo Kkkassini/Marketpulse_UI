@@ -38,7 +38,7 @@ class _DashboardIndustryBodyState extends State<DashboardIndustryBody> {
       //color: Colors.grey[100],
       child: Column(
         mainAxisSize: MainAxisSize.max,
-        children: <Widget>[TopBar(), Expanded(child: _mainContainer()),
+        children: <Widget>[Expanded(child: _mainContainer()),
 
         ],
       ),

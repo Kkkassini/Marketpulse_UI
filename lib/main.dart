@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marketpulse_ui/provider/ChangeThemeProvider.dart';
+import 'package:marketpulse_ui/ui/dashboard_industry.dart';
 import 'package:provider/provider.dart';
 import './ui/accueil.dart';
 

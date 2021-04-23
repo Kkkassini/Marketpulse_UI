@@ -25,8 +25,12 @@ class CardVideo extends StatelessWidget {
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF1F1F1),
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          border: Border.all(
+            color: const Color(0xFFF1F1F1),
+            width: 1,
+          )),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
