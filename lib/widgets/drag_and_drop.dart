@@ -1,5 +1,3 @@
-import 'dart:html';
-import 'dart:typed_data';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
@@ -10,14 +8,10 @@ String message1 = 'Drag & drop files here to upload';
 bool highlighted1 = false;
 
 class DragAndDrop extends StatefulWidget {
-//  final Function(String) filestring;
-  final Function(Uint8List) fileUint8List;
   _DragAndDropState createState() => _DragAndDropState();
-  const DragAndDrop({ Key key, this.fileUint8List}) : super(key: key);
 }
 
 class _DragAndDropState extends State<DragAndDrop> {
-
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical:15.0),
@@ -51,31 +45,27 @@ class _DragAndDropState extends State<DragAndDrop> {
   }
 
   Widget buildZone1(BuildContext context) => Builder(
-        builder: (context) => DropzoneView(
-          operation: DragOperation.copy,
-          cursor: CursorType.grab,
-          onCreated: (ctrl) => controller1 = ctrl,
-          onLoaded: () => print('Zone 1 loaded'),
-          onError: (ev) => print('Zone 1 error: $ev'),
-          onHover: () {
-            setState(() => highlighted1 = true);
-            print('Zone 1 hovered');
-          },
-          onLeave: () {
-            setState(() => highlighted1 = false);
-            print('Zone 1 left');
-          },
-          onDrop: (ev) {
-            print('Zone 1 drop: ${ev.name}');
-            print(ev);
-            setState(() {
-              print("avant");
-             // widget.filestring(ev.getFileMIME);
-              widget.fileUint8List(ev.getfileData());
-              message1 = '${ev.name} dropped';
-              highlighted1 = false;
-            });
-          },
-        ),
-      );
+    builder: (context) => DropzoneView(
+      operation: DragOperation.copy,
+      cursor: CursorType.grab,
+      onCreated: (ctrl) => controller1 = ctrl,
+      onLoaded: () => print('Zone 1 loaded'),
+      onError: (ev) => print('Zone 1 error: $ev'),
+      onHover: () {
+        setState(() => highlighted1 = true);
+        print('Zone 1 hovered');
+      },
+      onLeave: () {
+        setState(() => highlighted1 = false);
+        print('Zone 1 left');
+      },
+      onDrop: (ev) {
+        print('Zone 1 drop: ${ev.name}');
+        setState(() {
+          message1 = '${ev.name} dropped';
+          highlighted1 = false;
+        });
+      },
+    ),
+  );
 }

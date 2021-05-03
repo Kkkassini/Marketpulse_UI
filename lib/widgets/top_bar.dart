@@ -1,14 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:custom_switch/custom_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:marketpulse_ui/provider/ChangeThemeProvider.dart';
-import 'package:marketpulse_ui/ui/UploadFile.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import '../theme_config.dart';
+import 'UploadFile.dart';
 import 'drag_and_drop.dart';
 
 
@@ -20,7 +16,6 @@ class TopBar extends StatefulWidget {
 class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
 
   bool status = false;
-  String _string = "Not set yet";
 
   Widget _header() =>
       Container(
@@ -89,7 +84,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
           final _formKey = GlobalKey<FormState>();
           TextEditingController _sectorController = TextEditingController();
           TextEditingController _clientController = TextEditingController();
-          Uint8List fileToUpload;
+
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               insetPadding: EdgeInsets.symmetric(horizontal: 8),
@@ -117,15 +112,8 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w400,
                                 )),
-                            DragAndDrop(fileUint8List: (Uint8List tmpFile)=> setState(()=>fileToUpload = tmpFile)),
-                            SizedBox(
-                              height: 100,
-                              child: ListView(
-                                children: [
-                                FileUploadApp(fileUint8List: fileToUpload),
-                                ],
-                              ),
-                            )
+                            DragAndDrop(),
+                            FileUploadApp(),
                           ],
                         ),
                         SizedBox(
@@ -736,108 +724,108 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
   }
 
 
-Widget _notifications() =>
-    Container(
-      decoration: BoxDecoration(
-        border: Border(
-            right: BorderSide(color: Colors.black12),
-            left: BorderSide(color: Colors.black12)),
-      ),
-      child: Center(
-        child: IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-      ),
-    );
+  Widget _notifications() =>
+      Container(
+        decoration: BoxDecoration(
+          border: Border(
+              right: BorderSide(color: Colors.black12),
+              left: BorderSide(color: Colors.black12)),
+        ),
+        child: Center(
+          child: IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+        ),
+      );
 
-Widget _settings() =>
-    Container(
-      decoration: BoxDecoration(
-          border: Border(right: BorderSide(color: Colors.black12))),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          CustomSwitch(
-            activeColor: Colors.blue,
-            value: status,
-            onChanged: (value) {
-              print("VALUE : $value");
-              setState(() {
-                status = value;
-              });
+  Widget _settings() =>
+      Container(
+        decoration: BoxDecoration(
+            border: Border(right: BorderSide(color: Colors.black12))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomSwitch(
+              activeColor: Colors.blue,
+              value: status,
+              onChanged: (value) {
+                print("VALUE : $value");
+                setState(() {
+                  status = value;
+                });
 //                ThemeSwitcher.of(context).changeTheme(
 //                  theme: ThemeProvider.of(context).brightness ==
 //                      Brightness.light
 //                      ? darkTheme
 //                      : lightTheme,
 //                );
-              Provider.of<ChangeThemeProvider>(context, listen: false)
-                  .setTheme(
-                value ? ChangeThemeProvider().dark : ChangeThemeProvider()
-                    .light,);
-              Provider.of<ChangeThemeProvider>(context, listen: false)
-                  .setColor(value ? 1 : 0);
-            },
-          )
-        ],
+                Provider.of<ChangeThemeProvider>(context, listen: false)
+                    .setTheme(
+                  value ? ChangeThemeProvider().dark : ChangeThemeProvider()
+                      .light,);
+                Provider.of<ChangeThemeProvider>(context, listen: false)
+                    .setColor(value ? 1 : 0);
+              },
+            )
+          ],
+        ),
+      );
+
+  Widget _me() =>
+      Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.person),
+            SizedBox(
+              width: 26,
+            ),
+            Text(
+              'Edgar',
+              style: TextStyle(fontSize: 18),
+            )
+          ],
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Consumer<ChangeThemeProvider>(
+        builder: (context, change, _) {
+          return Container(
+            height: 70.0,
+            decoration: BoxDecoration(
+                color: change.colorValue,
+                border: Border(bottom: BorderSide(color: Colors.black12))),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  flex: 4,
+                  child: _header(),
+                ),
+                Flexible(
+                  flex: 8,
+                  child: _search(),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: _upload(),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: _notifications(),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: _settings(),
+                ),
+                Flexible(
+                  flex: 3,
+                  child: _me(),
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
-
-Widget _me() =>
-    Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(Icons.person),
-          SizedBox(
-            width: 26,
-          ),
-          Text(
-            'Edgar',
-            style: TextStyle(fontSize: 18),
-          )
-        ],
-      ),
-    );
-
-@override
-Widget build(BuildContext context) {
-  return Material(
-    child: Consumer<ChangeThemeProvider>(
-      builder: (context, change, _) {
-        return Container(
-          height: 70.0,
-          decoration: BoxDecoration(
-              color: change.colorValue,
-              border: Border(bottom: BorderSide(color: Colors.black12))),
-          child: Row(
-            children: <Widget>[
-              Flexible(
-                flex: 4,
-                child: _header(),
-              ),
-              Flexible(
-                flex: 8,
-                child: _search(),
-              ),
-              Flexible(
-                flex: 1,
-                child: _upload(),
-              ),
-              Flexible(
-                flex: 1,
-                child: _notifications(),
-              ),
-              Flexible(
-                flex: 1,
-                child: _settings(),
-              ),
-              Flexible(
-                flex: 3,
-                child: _me(),
-              )
-            ],
-          ),
-        );
-      },
-    ),
-  );
-}}
+  }}

@@ -4,7 +4,7 @@ import 'package:marketpulse_ui/ui/dashboard_industry.dart';
 import 'package:marketpulse_ui/ui/entities.dart';
 import 'package:provider/provider.dart';
 import './ui/accueil.dart';
-import './ui/UploadFile.dart';
+import 'widgets/UploadFile.dart';
 
 import 'theme_config.dart';
 
