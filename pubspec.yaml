@@ -41,6 +41,10 @@ dependencies:
   fl_chart: ^0.35.0
   provider: ^5.0.0
   twitter_kit: ^0.2.0
+  flutter_sound: ^3.1.5+1
+  ssh: ^0.0.7
+  image_picker: ^0.6.2+3
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:

@@ -87,7 +87,7 @@ class CardVideo extends StatelessWidget {
                             height: 100,
                             child:
                             Center(
-                                child: Icon(Icons.play_arrow)
+                                child: Icon(Icons.play_arrow, color: Colors.white)
                             ),
                           ),
                         )),

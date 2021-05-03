@@ -87,7 +87,7 @@ class CardSound extends StatelessWidget {
                                 height: 100,
                                 child:
                                 Center(
-                                  child: Icon(Icons.play_circle_fill)
+                                  child: Icon(Icons.play_circle_fill,color: Colors.white)
                                 ),
                               ),
                         )),

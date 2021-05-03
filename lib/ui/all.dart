@@ -5,7 +5,6 @@ import '../widgets/card_image.dart';
 import '../widgets/card_rfp.dart';
 import '../widgets/card_sound.dart';
 import '../widgets/card_video.dart';
-import '../widgets/drag_and_drop.dart';
 
 var title = "Application as a Service - Apprenda";
 var description =
@@ -118,50 +117,58 @@ class _AllState extends State<All> with SingleTickerProviderStateMixin {
                       ]),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 3),
-                      child: Row(children: [
-                        Icon(
-                          Icons.check,
-                          size: 20,
-                        ),
-                        Text(
-                          'IT Terms',
-                          style: TextStyle(
-                            fontSize: 14,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:5.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 3),
+                        child: Row(children: [
+                          Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 20,
                           ),
-                        ),
-                      ]),
+                          Text(
+                            'IT Terms',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ]),
+                      ),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 3),
-                      child: Row(children: [
-                        Icon(
-                          Icons.check,
-                          size: 20,
-                        ),
-                        Text(
-                          'IT Terms',
-                          style: TextStyle(
-                            fontSize: 14,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:5.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 3),
+                        child: Row(children: [
+                          Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 20,
                           ),
-                        ),
-                      ]),
+                          Text(
+                            'IT Terms',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ]),
+                      ),
                     ),
                   ),
                 ],

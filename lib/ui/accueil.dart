@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:marketpulse_ui/ui/all.dart';
 import 'package:marketpulse_ui/ui/dashboard_industry.dart';
+import 'package:marketpulse_ui/ui/entities.dart';
 import 'package:marketpulse_ui/widgets/top_bar.dart';
 var title = "Application as a Service - Apprenda";
 var description =
@@ -50,7 +52,7 @@ class Accueil extends StatefulWidget {
                       tabs: [
                         Tab(text: 'All'),
                         Tab(text: 'Analyse'),
-                        Tab(text: 'Tab 2'),
+                        Tab(text: 'Entities'),
                       ],
                     ),
                   ),
@@ -58,11 +60,7 @@ class Accueil extends StatefulWidget {
                     child: TabBarView(children: <Widget>[
                       All(),
                       DashboardIndustry(),
-                      Container(
-                        child: Center(
-                          child: Text('Display Tab 3', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                        ),
-                      ),
+                      Entities(),
                     ]),
                   )
                 ])
@@ -72,3 +70,18 @@ class Accueil extends StatefulWidget {
       ),
     );
   }}
+
+  class HtmlData extends StatefulWidget {
+    @override
+    _HtmlDataState createState() => _HtmlDataState();
+  }
+
+  class _HtmlDataState extends State<HtmlData> {
+    @override
+
+
+    Widget build(BuildContext context) {
+      return Container();
+    }
+  }
+
