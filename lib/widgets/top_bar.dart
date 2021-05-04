@@ -333,9 +333,9 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 8.0),
+                              Padding(
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                               child: ElevatedButton(
                                 child: Row(
                                   children: [
@@ -364,15 +364,15 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                               child: ElevatedButton(
                                   child: Row(
                                     children: [
-                                      Text('Next'),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5.0),
                                         child: Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 6,
+                                          Icons.upload_sharp,
+                                          size: 10,
                                         ),
                                       ),
+                                      Text('Upload'),
                                     ],
                                   ),
                                   style: ElevatedButton.styleFrom(
@@ -381,7 +381,6 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   onPressed: () {
                                     if (_formKey.currentState.validate()) {
                                       Navigator.pop(context, true);
-                                      showInformationDialog2(context);
                                     }
 
                                     /* if (_formKey.currentState.validate()) {
@@ -393,40 +392,6 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                             )
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: SizedBox(
-                                  height: 5,
-                                  width: 5,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                                width: 5,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black,
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
                       ],
                     ),
                   )),
@@ -435,294 +400,6 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
           });
         });
   }
-
-  Future<void> showInformationDialog2(BuildContext context) async {
-    return await showDialog(
-        context: context,
-        builder: (context) {
-          final _formKey = GlobalKey<FormState>();
-
-          return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-              insetPadding: EdgeInsets.symmetric(horizontal: 8),
-              content: Container(
-                  width: 600,
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Tag & Annot this document",
-                              style: TextStyle(
-                                fontFamily: 'Ubuntu',
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                          Text("Add a new entry",
-                              style: TextStyle(
-                                fontFamily: 'Ubuntu',
-                                fontSize: 14,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w400,
-                              )),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Add a modification title",
-                                style: TextStyle(
-                                  fontFamily: 'Ubuntu',
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                            Padding(
-                              padding:
-                              const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Expanded(
-                                child: TextFormField(
-                                  controller: _modificationTitleController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Title',
-                                    border: OutlineInputBorder(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Add new Tags",
-                                style: TextStyle(
-                                  fontFamily: 'Ubuntu',
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                            Padding(
-                              padding:
-                              const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: _tagsController,
-                                      validator: (String value) {
-                                        return tagsTags.isNotEmpty
-                                            ? null
-                                            : "Add at least one sector";
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: 'Document Name',
-                                        labelText: 'Tags',
-                                        border: OutlineInputBorder(),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () =>
-                                      {
-                                        setState(() {
-                                          tagsTags
-                                              .add(_tagsController.text);
-                                        }),
-                                        _tagsController =
-                                            TextEditingController(text: "")
-                                      },
-                                      child: Text("+ Add")),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Tags(
-                                alignment: WrapAlignment.center,
-                                itemCount: tagsTags.length,
-                                itemBuilder: (index) {
-                                  return ItemTags(
-                                    index: index,
-                                    title: tagsTags[index],
-                                    color: Colors.blue,
-                                    activeColor: Colors.blueGrey,
-                                    highlightColor: Colors.transparent,
-                                    splashColor: Colors.transparent,
-                                    elevation: 0.0,
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(7.0)),
-//                textColor: ,
-                                    textColor: Colors.white,
-                                    textActiveColor: Colors.white,
-                                    removeButton: ItemTagsRemoveButton(
-                                        color: Colors.black,
-                                        backgroundColor: Colors.transparent,
-                                        size: 14,
-                                        onRemoved: () {
-                                          setState(() {
-                                            tagsTags.remove(tagsTags[index]);
-                                          });
-
-                                          return true;
-                                        }),
-                                    textOverflow: TextOverflow.ellipsis,
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Column(
-                          children: [
-                            Text("Add a new annotation",
-                                style: TextStyle(
-                                  fontFamily: 'Ubuntu',
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              onPressed: () => {},
-                              child: Text("VIEW ANNOTATIONS HISTORY",
-                                  style: TextStyle(
-                                    fontFamily: 'Ubuntu',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: TextFormField(
-                          controller: _annotationController,
-                          decoration: InputDecoration(
-                            labelText: 'Annotation',
-                            border: OutlineInputBorder(),
-                          ),
-                          maxLines: 4,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ElevatedButton(
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5.0),
-                                    child: Icon(
-                                      Icons.arrow_back_ios,
-                                      size: 6,
-                                    ),
-                                  ),
-                                  Text('Back'),
-                                ],
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context, true);
-                                showInformationDialog(context);
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ElevatedButton(
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5.0),
-                                    child: Icon(
-                                      Icons.upload_sharp,
-                                      size: 10,
-                                    ),
-                                  ),
-                                  Text('Upload'),
-                                ],
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.blue,
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  // Do something like updating SharedPreferences or User Settings etc.
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: SizedBox(
-                                  height: 5,
-                                  width: 5,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.black,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 5,
-                              width: 5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )),
-            );
-          });
-        });
-  }
-
 
   Widget _notifications() =>
       Container(

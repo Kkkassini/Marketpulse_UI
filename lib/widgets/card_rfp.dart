@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:marketpulse_ui/ui/analyse_rfp.dart';
+import 'package:marketpulse_ui/ui/dashboard_industry.dart';
 
 import 'list_entities.dart';
 
@@ -132,7 +134,12 @@ class CardRFP extends StatelessWidget {
               children: [
                 if (displayAsCard)
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Analyse()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.blue,
                   ),
