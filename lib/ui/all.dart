@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tags/flutter_tags.dart';
-
 import '../widgets/card_image.dart';
 import '../widgets/card_rfp.dart';
 import '../widgets/card_sound.dart';
 import '../widgets/card_video.dart';
-
 var title = "Application as a Service - Apprenda";
 var description =
     "Applications As a Service - Apprenda Our Offering Our Offering Learn more about our Kubernetes-enabled product offering. Apprenda Cloud Platform Learn More.";

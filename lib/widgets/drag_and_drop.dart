@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
@@ -8,6 +10,10 @@ String message1 = 'Drag & drop files here to upload';
 bool highlighted1 = false;
 
 class DragAndDrop extends StatefulWidget {
+  Function(File) sendBackFile;
+  DragAndDrop({this.sendBackFile});
+
+  @override
   _DragAndDropState createState() => _DragAndDropState();
 }
 
@@ -60,8 +66,9 @@ class _DragAndDropState extends State<DragAndDrop> {
         print('Zone 1 left');
       },
       onDrop: (ev) {
-        print('Zone 1 drop: ${ev.name}');
+        print('Zone 1 drop: ${ev.type}');
         setState(() {
+          widget.sendBackFile(ev);
           message1 = '${ev.name} dropped';
           highlighted1 = false;
         });

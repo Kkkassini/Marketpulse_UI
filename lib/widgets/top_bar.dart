@@ -64,6 +64,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
   TextEditingController _annotationController = TextEditingController();
   List<String> sectorTags = [];
   List<String> clientTags = [];
+  List<String> countryTags = [];
   List<String> tagsTags = [];
 
   Widget _upload() =>
@@ -84,6 +85,9 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
           final _formKey = GlobalKey<FormState>();
           TextEditingController _sectorController = TextEditingController();
           TextEditingController _clientController = TextEditingController();
+          TextEditingController _countryController = TextEditingController();
+          List<int> fileToUpload;
+          String nameFile;
 
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
@@ -112,8 +116,8 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w400,
                                 )),
-                            DragAndDrop(),
-                            FileUploadApp(),
+                            ///DragAndDrop(),
+                            FileUploadApp(sendBackFile: (List<int> file)=> setState(()=>fileToUpload = file), sendBackFileName: (String result) => setState(()=>nameFile = result)),
                           ],
                         ),
                         SizedBox(
@@ -155,7 +159,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
                                   children: [
-                                    Text("Add sector and client",
+                                    Text("Add a sector, a client and country",
                                         style: TextStyle(
                                           fontFamily: 'Ubuntu',
                                           fontSize: 20,
@@ -324,6 +328,86 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                         },
                                       ),
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: _countryController,
+                                              validator: (String value) {
+                                                return countryTags.isNotEmpty
+                                                    ? null
+                                                    : "Add at least one country";
+                                              },
+                                              decoration: InputDecoration(
+                                                hintText: 'Country Name',
+                                                labelText: 'Country',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () =>
+                                              {
+                                                setState(() {
+                                                  countryTags.add(
+                                                      _countryController
+                                                          .text);
+                                                }),
+                                                _countryController =
+                                                    TextEditingController(
+                                                        text: "")
+                                              },
+                                              child: Text("+ Add")),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Tags(
+                                        alignment: WrapAlignment.center,
+                                        itemCount: countryTags.length,
+                                        itemBuilder: (index) {
+                                          return ItemTags(
+                                            index: index,
+                                            title: countryTags[index],
+                                            color: Colors.blue,
+                                            activeColor: Colors.blueGrey,
+                                            highlightColor:
+                                            Colors.transparent,
+                                            splashColor: Colors.transparent,
+                                            elevation: 0.0,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7.0)),
+//                textColor: ,
+                                            textColor: Colors.white,
+                                            textActiveColor: Colors.white,
+                                            removeButton:
+                                            ItemTagsRemoveButton(
+                                                color: Colors.black,
+                                                backgroundColor:
+                                                Colors.transparent,
+                                                size: 14,
+                                                onRemoved: () {
+                                                  setState(() {
+                                                    countryTags.remove(
+                                                        countryTags[
+                                                        index]);
+                                                  });
+
+                                                  return true;
+                                                }),
+                                            textOverflow:
+                                            TextOverflow.ellipsis,
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -380,7 +464,10 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   ),
                                   onPressed: () {
                                     if (_formKey.currentState.validate()) {
+                                      FileUploadApp fileUploadApp = new FileUploadApp(selectedFile: fileToUpload,sectorTags: sectorTags, clientTags: clientTags, countryTags: countryTags);
+                                      fileUploadApp.makeRequest();
                                       Navigator.pop(context, true);
+
                                     }
 
                                     /* if (_formKey.currentState.validate()) {
