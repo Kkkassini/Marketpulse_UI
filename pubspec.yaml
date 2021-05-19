@@ -45,6 +45,7 @@ dependencies:
   ssh: ^0.0.7
   image_picker: ^0.6.2+3
   dio: ^3.0.10
+  event_bus: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,15 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:custom_switch/custom_switch.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:marketpulse_ui/provider/ChangeThemeProvider.dart';
+import 'package:marketpulse_ui/provider/event_bus.dart';
 import 'package:provider/provider.dart';
 import 'UploadFile.dart';
+
+import '../theme_config.dart';
 import 'drag_and_drop.dart';
 
 
@@ -37,32 +42,53 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
         ),
       );
 
+
+
+  TextEditingController _searchController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(() {
+      print(_searchController.text);
+      if (_searchController.text.isNotEmpty) {
+        eventBus.fire(EventMessage("search", _searchController.text));
+      }else{
+        eventBus.fire(EventMessage("searchAll", _searchController.text));
+      }
+    });
+  }
+
   Widget _search() =>
       Container(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: TextFormField(
-            style: TextStyle(color: Colors.black, fontSize: 16.0),
-            cursorColor: Colors.grey,
-            decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: Colors.black,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: TextFormField(
+              controller: _searchController,
+              style: TextStyle(color: Colors.black, fontSize: 16.0),
+              cursorColor: Colors.grey,
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+                hintText: 'Search Industry, Enterprise, RFPS ...',
+                contentPadding:
+                EdgeInsets.symmetric(horizontal: 32.0, vertical: 14.0),
+                border: InputBorder.none,
               ),
-              hintText: 'Search Industry, Enterprise, RFPS ...',
-              contentPadding:
-              EdgeInsets.symmetric(horizontal: 32.0, vertical: 14.0),
-              border: InputBorder.none,
             ),
           ),
-        ),
       );
+
 
   TextEditingController _urlController = TextEditingController();
   TextEditingController _tagsController = TextEditingController();
   TextEditingController _modificationTitleController = TextEditingController();
   TextEditingController _annotationController = TextEditingController();
   List<String> sectorTags = [];
+  List<String> countryTags = [];
   List<String> clientTags = [];
   List<String> tagsTags = [];
 
@@ -84,6 +110,9 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
           final _formKey = GlobalKey<FormState>();
           TextEditingController _sectorController = TextEditingController();
           TextEditingController _clientController = TextEditingController();
+          TextEditingController _countryController = TextEditingController();
+          List<int> fileToUpload;
+          String nameFile;
 
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
@@ -112,8 +141,8 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w400,
                                 )),
-                            DragAndDrop(),
-                            FileUploadApp(),
+                           // DragAndDrop(),
+                            FileUploadApp(sendBackFile: (List<int> file)=> setState(()=>fileToUpload = file), sendBackFileName: (String result) => setState(()=>nameFile = result)),
                           ],
                         ),
                         SizedBox(
@@ -155,7 +184,7 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
                                   children: [
-                                    Text("Add sector and client",
+                                    Text("Add a sector, a client and country",
                                         style: TextStyle(
                                           fontFamily: 'Ubuntu',
                                           fontSize: 20,
@@ -324,6 +353,86 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                         },
                                       ),
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: _countryController,
+                                              validator: (String value) {
+                                                return countryTags.isNotEmpty
+                                                    ? null
+                                                    : "Add at least one country";
+                                              },
+                                              decoration: InputDecoration(
+                                                hintText: 'Country Name',
+                                                labelText: 'Country',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () =>
+                                              {
+                                                setState(() {
+                                                  countryTags.add(
+                                                      _countryController
+                                                          .text);
+                                                }),
+                                                _countryController =
+                                                    TextEditingController(
+                                                        text: "")
+                                              },
+                                              child: Text("+ Add")),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Tags(
+                                        alignment: WrapAlignment.center,
+                                        itemCount: countryTags.length,
+                                        itemBuilder: (index) {
+                                          return ItemTags(
+                                            index: index,
+                                            title: countryTags[index],
+                                            color: Colors.blue,
+                                            activeColor: Colors.blueGrey,
+                                            highlightColor:
+                                            Colors.transparent,
+                                            splashColor: Colors.transparent,
+                                            elevation: 0.0,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7.0)),
+//                textColor: ,
+                                            textColor: Colors.white,
+                                            textActiveColor: Colors.white,
+                                            removeButton:
+                                            ItemTagsRemoveButton(
+                                                color: Colors.black,
+                                                backgroundColor:
+                                                Colors.transparent,
+                                                size: 14,
+                                                onRemoved: () {
+                                                  setState(() {
+                                                    countryTags.remove(
+                                                        countryTags[
+                                                        index]);
+                                                  });
+
+                                                  return true;
+                                                }),
+                                            textOverflow:
+                                            TextOverflow.ellipsis,
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -333,9 +442,9 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            Padding(
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 8.0),
                               child: ElevatedButton(
                                 child: Row(
                                   children: [
@@ -380,7 +489,10 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
                                   ),
                                   onPressed: () {
                                     if (_formKey.currentState.validate()) {
+                                      FileUploadApp fileUploadApp = new FileUploadApp(selectedFile: fileToUpload,sectorTags: sectorTags, clientTags: clientTags, countryTags: countryTags);
+                                      fileUploadApp.makeRequest();
                                       Navigator.pop(context, true);
+
                                     }
 
                                     /* if (_formKey.currentState.validate()) {
@@ -401,108 +513,112 @@ class _TopBar extends State<TopBar> with SingleTickerProviderStateMixin  {
         });
   }
 
-  Widget _notifications() =>
-      Container(
-        decoration: BoxDecoration(
-          border: Border(
-              right: BorderSide(color: Colors.black12),
-              left: BorderSide(color: Colors.black12)),
-        ),
-        child: Center(
-          child: IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-        ),
-      );
+Widget _notifications() =>
+    Container(
+      decoration: BoxDecoration(
+        border: Border(
+            right: BorderSide(color: Colors.black12),
+            left: BorderSide(color: Colors.black12)),
+      ),
+      child: Center(
+        child: IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+      ),
+    );
 
-  Widget _settings() =>
-      Container(
-        decoration: BoxDecoration(
-            border: Border(right: BorderSide(color: Colors.black12))),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomSwitch(
-              activeColor: Colors.blue,
-              value: status,
-              onChanged: (value) {
-                print("VALUE : $value");
-                setState(() {
-                  status = value;
-                });
+Widget _settings() =>
+    Container(
+      decoration: BoxDecoration(
+          border: Border(right: BorderSide(color: Colors.black12))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CustomSwitch(
+            activeColor: Colors.blue,
+            value: status,
+            onChanged: (value) {
+              print("VALUE : $value");
+              setState(() {
+                status = value;
+              });
 //                ThemeSwitcher.of(context).changeTheme(
 //                  theme: ThemeProvider.of(context).brightness ==
 //                      Brightness.light
 //                      ? darkTheme
 //                      : lightTheme,
 //                );
-                Provider.of<ChangeThemeProvider>(context, listen: false)
-                    .setTheme(
-                  value ? ChangeThemeProvider().dark : ChangeThemeProvider()
-                      .light,);
-                Provider.of<ChangeThemeProvider>(context, listen: false)
-                    .setColor(value ? 1 : 0);
-              },
-            )
-          ],
-        ),
-      );
-
-  Widget _me() =>
-      Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(Icons.person),
-            SizedBox(
-              width: 26,
-            ),
-            Text(
-              'Edgar',
-              style: TextStyle(fontSize: 18),
-            )
-          ],
-        ),
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: Consumer<ChangeThemeProvider>(
-        builder: (context, change, _) {
-          return Container(
-            height: 70.0,
-            decoration: BoxDecoration(
-                color: change.colorValue,
-                border: Border(bottom: BorderSide(color: Colors.black12))),
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  flex: 4,
-                  child: _header(),
-                ),
-                Flexible(
-                  flex: 8,
-                  child: _search(),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: _upload(),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: _notifications(),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: _settings(),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: _me(),
-                )
-              ],
-            ),
-          );
-        },
+              Provider.of<ChangeThemeProvider>(context, listen: false)
+                  .setTheme(
+                value ? ChangeThemeProvider().dark : ChangeThemeProvider()
+                    .light,);
+              Provider.of<ChangeThemeProvider>(context, listen: false)
+                  .setColor(value ? 1 : 0);
+              Provider.of<ChangeThemeProvider>(context, listen: false)
+                  .setWidgetBg(value ? 1 : 0);
+              Provider.of<ChangeThemeProvider>(context, listen: false)
+                  .setDivider(value ? 0 : 1);
+            },
+          )
+        ],
       ),
     );
-  }}
+
+Widget _me() =>
+    Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(Icons.person),
+          SizedBox(
+            width: 26,
+          ),
+          Text(
+            'Edgar',
+            style: TextStyle(fontSize: 18),
+          )
+        ],
+      ),
+    );
+
+@override
+Widget build(BuildContext context) {
+  return Material(
+    child: Consumer<ChangeThemeProvider>(
+      builder: (context, change, _) {
+        return Container(
+          height: 70.0,
+          decoration: BoxDecoration(
+              color: change.colorValue,
+              border: Border(bottom: BorderSide(color: Colors.black12))),
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                flex: 4,
+                child: _header(),
+              ),
+              Flexible(
+                flex: 8,
+                child: _search(),
+              ),
+              Flexible(
+                flex: 1,
+                child: _upload(),
+              ),
+              Flexible(
+                flex: 1,
+                child: _notifications(),
+              ),
+              Flexible(
+                flex: 1,
+                child: _settings(),
+              ),
+              Flexible(
+                flex: 3,
+                child: _me(),
+              )
+            ],
+          ),
+        );
+      },
+    ),
+  );
+}}

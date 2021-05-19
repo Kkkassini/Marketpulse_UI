@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:marketpulse_ui/ui/analyse_rfp.dart';
-import 'package:marketpulse_ui/ui/dashboard_industry.dart';
+import 'package:marketpulse_ui/model/tags_data.dart';
+import 'package:marketpulse_ui/widgets/list_entity.dart';
 
 import 'list_entities.dart';
 
@@ -11,9 +11,17 @@ class CardRFP extends StatelessWidget {
   final String link;
   final DateTime date;
   final bool displayAsCard;
+  final Function onClick;
 
 
-  final List<String> listEntitiesConfirmed;
+
+//  final List<String> listEntitiesConfirmed;
+
+  final List Organisation;
+  final List ITTerms;
+  final List Software;
+  final List Cybersecurity;
+
   @override
   CardRFP({
     this.title = "Missing Title",
@@ -22,9 +30,14 @@ class CardRFP extends StatelessWidget {
     this.link = "Unknown",
     this.date,
     this.displayAsCard = true, /// if true: prints the tags and the buttons. Usefull when calling CardRfp for other cards such as CardSound or CardVideo.
-    listEntitiesConfirmed,
-  })///List of fake Tags
-    : listEntitiesConfirmed =listEntitiesConfirmed ?? List<String>.generate(30, (i) => "Item $i");
+//    this.listEntitiesConfirmed,
+    this.onClick,
+    this.Organisation,
+    this.ITTerms,
+    this.Software,
+    this.Cybersecurity,
+  });///List of fake Tags
+//    : listEntitiesConfirmed =listEntitiesConfirmed ?? List<String>.generate(30, (i) => "Item $i");
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +139,14 @@ class CardRFP extends StatelessWidget {
 
             ///Entities
             if (displayAsCard)
-            ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
+//            ListEntities(numberOfVisibleEntities: 4,listEntities: listEntitiesConfirmedTitle,),
+              ListEntitiy([(TagsList("Organisation",Colors.green))],[(TagsList("ITTerms",Colors.red))],[(TagsList("Software",Colors.black))],[(TagsList("Cybersecurity",Colors.blue))],4),
+            SizedBox(height: 10),
+
+
+            if (displayAsCard)
+//              ListEntities(numberOfVisibleEntities: 4,listEntities: listEntitiesConfirmed),
+              ListEntitiy(Organisation.length>0?Organisation.map((e)=> TagsList(e,Colors.green)).toList():[] ,ITTerms.length>0?ITTerms.map((e)=> TagsList(e,Colors.red)).toList():[] ,Software.length>0?Software.map((e)=> TagsList(e,Colors.black)).toList():[] ,Cybersecurity.length>0?Cybersecurity.map((e)=> TagsList(e,Colors.blue)).toList() :[],4),
             SizedBox(height: 10),
 
             ///Buttons
@@ -134,12 +154,7 @@ class CardRFP extends StatelessWidget {
               children: [
                 if (displayAsCard)
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Analyse()),
-                    );
-                  },
+                  onPressed: () {onClick();},
                   style: ElevatedButton.styleFrom(
                     primary: Colors.blue,
                   ),

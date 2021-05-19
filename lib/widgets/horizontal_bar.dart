@@ -18,7 +18,6 @@ class HorizontalBarLabelChart extends StatelessWidget {
   }
 
 
-
   // [BarLabelDecorator] will automatically position the label
   // inside the bar if the label will fit. If the label will not fit and the
   // area outside of the bar is larger than the bar, it will draw outside of the

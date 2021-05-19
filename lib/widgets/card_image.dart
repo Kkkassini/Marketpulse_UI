@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'list_entities.dart';
 
 final listEntitiesConfirmed = List<String>.generate(20, (i) => "Item $i");
@@ -64,7 +65,7 @@ class CardImage extends StatelessWidget {
             SizedBox(height: 10),
 
             ///Entities
-            ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
+//            ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
 
             SizedBox(height: 10),
 

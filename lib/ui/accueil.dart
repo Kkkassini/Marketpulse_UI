@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:marketpulse_ui/ui/all.dart';
 import 'package:marketpulse_ui/ui/dashboard_industry.dart';
-import 'package:marketpulse_ui/ui/entities.dart';
 import 'package:marketpulse_ui/widgets/top_bar.dart';
+
+import 'entities.dart';
 var title = "Application as a Service - Apprenda";
 var description =
     "Applications As a Service - Apprenda Our Offering Our Offering Learn more about our Kubernetes-enabled product offering. Apprenda Cloud Platform Learn More.";
@@ -32,7 +32,7 @@ class Accueil extends StatefulWidget {
   _Accueil createState() => _Accueil();
 }
 
-  class _Accueil extends State<Accueil>  with SingleTickerProviderStateMixin {
+  class _Accueil extends State<Accueil>  with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: CustomAppBar(),
@@ -52,7 +52,7 @@ class Accueil extends StatefulWidget {
                       tabs: [
                         Tab(text: 'All'),
                         Tab(text: 'Analyse'),
-                        Tab(text: 'Entities'),
+                        Tab(text: 'Tab 2'),
                       ],
                     ),
                   ),
@@ -60,7 +60,8 @@ class Accueil extends StatefulWidget {
                     child: TabBarView(children: <Widget>[
                       All(),
                       DashboardIndustry(),
-                      Entities(),
+                        Entities(),
+
                     ]),
                   )
                 ])
@@ -69,19 +70,9 @@ class Accueil extends StatefulWidget {
         ],
       ),
     );
-  }}
-
-  class HtmlData extends StatefulWidget {
-    @override
-    _HtmlDataState createState() => _HtmlDataState();
   }
 
-  class _HtmlDataState extends State<HtmlData> {
-    @override
-
-
-    Widget build(BuildContext context) {
-      return Container();
-    }
-  }
-
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+}

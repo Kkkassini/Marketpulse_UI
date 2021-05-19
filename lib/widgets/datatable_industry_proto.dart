@@ -8,24 +8,32 @@ class TableList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      flex: 1,
-      child: Container(
-          margin: EdgeInsets.only(top: 30.0),
-          child: Row(
-            children: [
-              Flexible(child: Container(decoration: BoxDecoration(color: Colors.white),child: Center(child: Text("Tweet Feeds Area"),)),flex: 2,),
-              SizedBox(width: 20,),
-              Flexible(child:  ListView.separated(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                separatorBuilder: (context,index)=>SizedBox(height: 20,child: Divider(height: 1,color: Colors.white,),),
-                  itemBuilder: (context,index)=> index==0?TableTitle():TableItem(index-1),
-                itemCount: _list.length+1,
-              ),flex: 5,)
-            ],
-          )
-      ),
+    return Consumer<ChangeThemeProvider>(
+      builder: (ctx,change,_){
+        return Flexible(
+          flex: 1,
+          child: Container(
+              margin: EdgeInsets.only(top: 30.0),
+              child: Row(
+                children: [
+                  Flexible(child: Container(height: 600,decoration: BoxDecoration(color:change.widgetBgValue),child: Center(child: Text("Tweet Feeds Area"),)),flex: 3,),
+                  SizedBox(width: 10,),
+                  Flexible(child:  Container(
+                    height: 600,
+                    decoration: BoxDecoration(color:change.widgetBgValue),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context,index)=> index>0?SizedBox(height: 10,child: Divider(height: 1,color: change.dividerValue,),):Container(),
+                      itemBuilder: (context,index)=> index==0?TableTitle():TableItem(index-1),
+                      itemCount: _list.length+1,
+                    ),
+                  ),flex: 7,)
+                ],
+              )
+          ),
+        );
+      },
     );
   }
 }
@@ -40,8 +48,8 @@ class TableTitle extends StatelessWidget {
     return Consumer<ChangeThemeProvider>(
         builder: (context,change,_){
       return  Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(color: Colors.grey),
+      padding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+      decoration: BoxDecoration(color: Colors.blue.withOpacity(.2)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

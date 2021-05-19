@@ -1,67 +1,108 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-List<List<String>> _dataLocation = [
-  ["Germany", "45"],
-  ["London", "8"],
-  ["NewYork", "16"],
-  ["United Kingdoms", "4"]
-];
+class Entities extends StatefulWidget {
+  @override
+  _EntitiesState createState() => _EntitiesState();
+}
 
-List<List<String>> _dataItTerms = [
-  ["API", "45"],
-  ["CRM", "8"],
-  ["Microsoft virtual studio", "16"],
-  ["SaaS", "4"],
-  ["SaaS Enablement", "45"],
-  ["SaaS Development Costs", "5"],
-  ["SaaS Development Lifecycle and Life", "4"],
-  ["Cloud", "400"]
-];
+class _EntitiesState extends State<Entities> {
+  Future<EntitiesAlbum> futureAlbum;
+  List<EntitiesData> dataList = [];
 
-List<List<String>> _dataOrganizations = [
-  ["Cloud Computing Glossary", "45"],
-  ["Cloud Computing Overview", "8"],
-  ["Developers", "16"],
-  ["Human Ressources Management", "4"],
-  ["Kubernetes", "45"],
-  ["PaaS Overview", "5"],
-  ["PaaS Providers & Vendors", "4"],
-  ["Independant Softwar Deployment", "400"]
-];
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchEntitiesAlbum();
+  }
 
-List<List<String>> _dataPhoneNumbers = [
-  ["+310205219434", "45"],
-  ["+4402078682040", "8"],
-  ["+49089203006187", "16"],
-  ["5183832130", "4"],
-  ["5185332898", "45"]
-];
+  Future<EntitiesAlbum> fetchEntitiesAlbum() async {
+    final response = await http
+        .get('http://10.24.42.121:2020/get_all_entities_of_all_categories/');
 
-class Entities extends StatelessWidget {
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      final Map<String, dynamic> itJson = jsonDecode(response.body)['ITTerms'];
+      itJson.forEach((key, value) => {
+            dataList.add(EntitiesData("ITterms", key, value))
+          });
+      final Map<String, dynamic> softwareJson =
+          jsonDecode(response.body)['Software'];
+      softwareJson.forEach((key, value) => {
+            dataList.add(EntitiesData("Software", key, value))
+          });
+      final Map<String, dynamic> orgaJson =
+          jsonDecode(response.body)['Organisation'];
+      orgaJson.forEach((key, value) => {
+            dataList.add(EntitiesData("Organisation", key, value))
+          });
+      final Map<String, dynamic> cyberJson =
+          jsonDecode(response.body)['Cybersecurity'];
+      cyberJson.forEach((key, value) => {
+            dataList.add(EntitiesData("Cybersecurity", key, value))
+          });
+      return EntitiesAlbum.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal:30.0, vertical: 10),
-      child: Wrap(
+    return SizedBox.expand(
+      child: ListView(
         children: [
-          Row(
-            children: [
-              Expanded(child: _location()),
-              Expanded(child: _itTerms()),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(child: _organization()),
-              Expanded(child: _phonenumbers()),
-            ],
-          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+              child: FutureBuilder<EntitiesAlbum>(
+                  future: futureAlbum,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      // return SizedBox(width: 300, height: 300,child: ListView(children:[ Text(snapshot.data.name.toString() ??'defa1 value')]));
+                      return Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children:[
+                        Expanded(
+                          child: Column(
+
+                            children: [
+                               _location(),
+                              _itTerms(),
+                            ]),
+                        ),
+                        Expanded(
+                              child: Column(
+
+                                children: [
+                                  _organization(),
+                                  _cybersecurity(),
+
+                          ],
+                        ),
+                            ),
+                      ]);
+                    }  else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+
+                    // By default, show a loading spinner.
+                    return CircularProgressIndicator();
+                  })),
         ],
       ),
     );
   }
 
-  Widget _location() => Column(
+  Widget _location() => Column(crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -71,9 +112,10 @@ class Entities extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
-                  'Locations',
+                  'Software',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -85,32 +127,38 @@ class Entities extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical:8.0),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal:10.0, vertical: 5),
-                child: Column(children: [
-            for (int index = 0; index < _dataLocation.length; index++)
-                Column(
-                  children: [Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('${_dataLocation[index][0]}'),
-                      Text('${_dataLocation[index][1]} Documents', style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14,),)
-                    ],
-                  ),
-                  if (index!= _dataLocation.length-1)
-                  Divider()]
-                ),
-
-          ]),
-              )),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Column(children: [
+              for (int index = 0; index < dataList.length; index++)
+                if (dataList[index].type == "Software")
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${dataList[index].name}'),
+                        Text(
+                          '${dataList[index].nbDocuments} Documents',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 14,
+                          ),
+                        )
+                      ],
+                    ),
+                    if (index != dataList.length - 1) Divider()
+                  ]),
+            ]),
+          )),
         )
       ]);
 
   Widget _itTerms() => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -120,7 +168,8 @@ class Entities extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
                   'It Terms',
                   style: TextStyle(
@@ -134,33 +183,38 @@ class Entities extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical:8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal:10.0, vertical: 5),
-                child: Column(children: [
-                  for (int index = 0; index < _dataItTerms.length; index++)
-                    Column(
-                        children: [Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${_dataItTerms[index][0]}'),
-                            Text('${_dataItTerms[index][1]} Documents', style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 14,),)
-                          ],
-                        ),
-                          if (index!= _dataItTerms.length-1)
-                            Divider()]
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              for (int index = 0; index < dataList.length; index++)
+                if (dataList[index].type == "ITterms")
+                  Column(
+                      children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${dataList[index].name}'),
+                        Text(
+                          '${dataList[index].nbDocuments} Documents',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 14,
+                          ),
+                        )
+                      ],
                     ),
-
-                ]),
-              )),
+                    if (index != dataList.length - 1) Divider()
+                  ]),
+            ]),
+          )),
         )
       ]);
 
-  Widget _organization() => Column(
-      children: [
+  Widget _organization() => Column(children: [
         Row(
           children: [
             Container(
@@ -169,9 +223,10 @@ class Entities extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
-                  'Organization',
+                  'Organisation',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -183,33 +238,35 @@ class Entities extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical:8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal:10.0, vertical: 5),
-                child: Column(children: [
-                  for (int index = 0; index < _dataOrganizations.length; index++)
-                    Column(
-                        children: [Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${_dataOrganizations[index][0]}'),
-                            Text('${_dataOrganizations[index][1]} Documents', style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 14,),)
-                          ],
-                        ),
-                          if (index!= _dataOrganizations.length-1)
-                            Divider()]
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Column(children: [
+              for (int index = 0; index < dataList.length; index++)
+                if (dataList[index].type == "Organisation")
+                  Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${dataList[index].name}'),
+                        Text(
+                          '${dataList[index].nbDocuments} Documents',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 14,
+                          ),
+                        )
+                      ],
                     ),
-
-                ]),
-              )),
+                    if (index != dataList.length - 1) Divider()
+                  ]),
+            ]),
+          )),
         )
       ]);
 
-  Widget _phonenumbers() => Column(
-      children: [
+  Widget _cybersecurity() => Column(children: [
         Row(
           children: [
             Container(
@@ -218,9 +275,10 @@ class Entities extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
-                  'Phone Numbers',
+                  'Cybersecurity',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -232,28 +290,60 @@ class Entities extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical:8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal:10.0, vertical: 5),
-                child: Column(children: [
-                  for (int index = 0; index < _dataPhoneNumbers.length; index++)
-                    Column(
-                        children: [Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${_dataPhoneNumbers[index][0]}'),
-                            Text('${_dataPhoneNumbers[index][1]} Documents', style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 14,),)
-                          ],
-                        ),
-                          if (index!= _dataPhoneNumbers.length-1)
-                            Divider()]
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Column(children: [
+              for (int index = 0; index < dataList.length; index++)
+                if (dataList[index].type == "Cybersecurity")
+                  Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${dataList[index].name}'),
+                        Text(
+                          '${dataList[index].nbDocuments} Documents',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 14,
+                          ),
+                        )
+                      ],
                     ),
-
-                ]),
-              )),
+                    if (index != dataList.length - 1) Divider()
+                  ]),
+            ]),
+          )),
         )
       ]);
+}
+
+class EntitiesAlbum {
+  final Object software;
+
+
+  EntitiesAlbum(
+      {this.software});
+
+  factory EntitiesAlbum.fromJson(Map<String, dynamic> json) {
+    return EntitiesAlbum(
+      software: json['Software'],
+
+    );
+  }
+}
+
+class EntitiesData {
+  final String _type;
+  final String _name;
+  final int _nbDocuments;
+
+  String get type => _type;
+
+  String get name => _name;
+
+  int get nbDocuments => _nbDocuments;
+
+  EntitiesData(this._type, this._name, this._nbDocuments);
 }

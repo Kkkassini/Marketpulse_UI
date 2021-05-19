@@ -45,27 +45,27 @@ class _DragAndDropState extends State<DragAndDrop> {
   }
 
   Widget buildZone1(BuildContext context) => Builder(
-    builder: (context) => DropzoneView(
-      operation: DragOperation.copy,
-      cursor: CursorType.grab,
-      onCreated: (ctrl) => controller1 = ctrl,
-      onLoaded: () => print('Zone 1 loaded'),
-      onError: (ev) => print('Zone 1 error: $ev'),
-      onHover: () {
-        setState(() => highlighted1 = true);
-        print('Zone 1 hovered');
-      },
-      onLeave: () {
-        setState(() => highlighted1 = false);
-        print('Zone 1 left');
-      },
-      onDrop: (ev) {
-        print('Zone 1 drop: ${ev.name}');
-        setState(() {
-          message1 = '${ev.name} dropped';
-          highlighted1 = false;
-        });
-      },
-    ),
-  );
+        builder: (context) => DropzoneView(
+          operation: DragOperation.copy,
+          cursor: CursorType.grab,
+          onCreated: (ctrl) => controller1 = ctrl,
+          onLoaded: () => print('Zone 1 loaded'),
+          onError: (ev) => print('Zone 1 error: $ev'),
+          onHover: () {
+            setState(() => highlighted1 = true);
+            print('Zone 1 hovered');
+          },
+          onLeave: () {
+            setState(() => highlighted1 = false);
+            print('Zone 1 left');
+          },
+          onDrop: (ev) {
+            print('Zone 1 drop: ${ev.name}');
+            setState(() {
+              message1 = '${ev.name} dropped';
+              highlighted1 = false;
+            });
+          },
+        ),
+      );
 }

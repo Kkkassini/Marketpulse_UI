@@ -153,7 +153,7 @@ class InfoCard extends StatelessWidget {
     return Consumer<ChangeThemeProvider>(
       builder: (context,change,_){
         return Container(
-          width: 340,
+          width: MediaQuery.of(context).size.width/4.5,
           decoration: BoxDecoration(
             color: change.colorValue,
             borderRadius: BorderRadius.circular(10.0),

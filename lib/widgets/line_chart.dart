@@ -1,5 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:marketpulse_ui/provider/ChangeThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 import 'horizontal_bar.dart';
 
@@ -28,76 +30,91 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      flex: 1,
-      child: Container(
-        margin: EdgeInsets.only(top: 30),
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              flex: 2,
-              child: Container(
-                height: 300,
-                child: HorizontalBarLabelChart.withSampleData(),
-              )
+    return Consumer<ChangeThemeProvider>(
+      builder: (ctx,change,_){
+        return Flexible(
+          flex: 1,
+          child: Container(
+            margin: EdgeInsets.only(top: 30),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: change.widgetBgValue
+                      ),
+                      height: 300,
+                      child: HorizontalBarLabelChart.withSampleData(),
+                    )
 
 
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Flexible(
-              flex: 5,
-               child: Container(
-                 height: 300,
-                 child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 10,
-                      child: AspectRatio(
-                        aspectRatio: 2,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Flexible(
+                    flex: 5,
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: 300,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 10,
+                                child: AspectRatio(
+                                  aspectRatio: 2,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: change.widgetBgValue,
+//                                    borderRadius: BorderRadius.all(
+//                                      Radius.circular(18),
+//                                    ),
+//                                    color: Color(0xff232d37)
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
+                                      child: LineChart(
+                                        showAvg ? avgData() : mainData(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              color: Color(0xff232d37)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
-                            child: LineChart(
-                              showAvg ? avgData() : mainData(),
+
+                            ],
+
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: SizedBox(
+                            width: 60,
+                            height: 34,
+                            child: FlatButton(
+                              onPressed: () {
+                                setState(() {
+                                  showAvg = !showAvg;
+                                });
+                              },
+                              child: Text(
+                                'avg',
+//                              style: TextStyle(
+//                                  fontSize: 12, color: showAvg ? Colors.white.withOpacity(0.5) : Colors.black),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        width: 30,
-                        height: 34,
-                        child: FlatButton(
-                          onPressed: () {
-                            setState(() {
-                              showAvg = !showAvg;
-                            });
-                          },
-                          child: Text(
-                            'avg',
-                            style: TextStyle(
-                                fontSize: 12, color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-
+                      ],
+                    )
+                )
+              ],
             ),
-            )
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 

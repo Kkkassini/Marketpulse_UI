@@ -4,19 +4,33 @@ import 'package:flutter/material.dart';
 
 class ChangeThemeProvider with ChangeNotifier{
 
-  ChangeThemeProvider({this.data,this.widgetColor});
+  ChangeThemeProvider({this.data ,this.widgetColor,this.widgetBgColor,this.dividerColor});
 
   ThemeData data;
-
   Color widgetColor;
+  Color widgetBgColor;
+  Color dividerColor;
+
   List<Color> colorList = [Colors.white,Colors.black54];
+  List<Color> colorWidgetBgList = [Colors.white,Color(0xff232d37)];
 
   Color get colorValue => widgetColor;
+  Color get widgetBgValue => widgetBgColor;
+  Color get dividerValue => dividerColor;
 
   ThemeData get value => data;
 
   void setColor(index){
     widgetColor = colorList[index];
+    notifyListeners();
+  }
+  void setDivider(index){
+    dividerColor = colorList[index];
+    notifyListeners();
+  }
+  void setWidgetBg(index){
+    widgetBgColor = colorWidgetBgList[index];
+    notifyListeners();
   }
 
   void setTheme(ThemeData themeData){

@@ -67,8 +67,8 @@ class CardVideo extends StatelessWidget {
             SizedBox(height: 10),
 
             ///Entities
-            ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
-            SizedBox(height: 10),
+//            ListEntities(numberOfVisibleEntities: 3,listEntities: listEntitiesConfirmed),
+//            SizedBox(height: 10),
 
             ///CardRfp with Videos
             Container(
@@ -87,7 +87,7 @@ class CardVideo extends StatelessWidget {
                             height: 100,
                             child:
                             Center(
-                                child: Icon(Icons.play_arrow, color: Colors.white)
+                                child: Icon(Icons.play_arrow)
                             ),
                           ),
                         )),
